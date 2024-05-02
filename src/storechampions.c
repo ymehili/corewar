@@ -32,6 +32,14 @@ static champion_t *initchampion(void)
     return champion;
 }
 
+/**
+ * @brief           Retrieves the header information from the buffer and stores
+ *                  it in the champion structure.
+ *
+ * @param champion  A pointer to the champion structure.
+ * @param buffer    The buffer containing the program header information.
+ * @param i         A pointer to the current index in the buffer.
+ */
 static void getheader(champion_t *champion, char *buffer, int *i)
 {
     for (int j = 0; j < PROG_NAME_LENGTH; j++) {
@@ -53,9 +61,6 @@ static void getchampioninfos(champion_t *champion, char *buffer)
     int i = 4;
 
     getheader(champion, buffer, &i);
-    printf("name: %s\n", champion->name);
-    printf("size: %d\n", champion->size);
-    printf("comment: %s\n", champion->comment);
     return;
 }
 
