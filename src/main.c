@@ -7,8 +7,55 @@
 
 #include "../include/src.h"
 
+/**
+ * @brief   Initializes a new champion.
+ *
+ * @return  A pointer to the newly initialized champion.
+ */
+champion_t *initchampion(void)
+{
+    static int id = 0;
+    champion_t *champion = malloc(sizeof(champion_t));
+
+    champion->id = id;
+    id++;
+    champion->name = malloc(sizeof(char) * PROG_NAME_LENGTH + 1);
+    champion->comment = malloc(sizeof(char) * COMMENT_LENGTH + 1);
+    champion->size = 0;
+    champion->address = 0;
+    champion->alive = 0;
+    champion->last_live = 0;
+    champion->nb_live = 0;
+    champion->carry = 0;
+    for (int i = 0; i < REG_NUMBER; i++)
+        champion->reg[i] = 0;
+    champion->instructions = NULL;
+    champion->next = NULL;
+    return champion;
+}
+
+void getchampioninfos(champion_t *champion, char *buffer)
+{
+    int i = 0;
+
+    getheader(champion, buffer);
+    return;
+}
+
 void storebuffer(char *buffer, global_t *global, champion_t *tmp)
 {
+    if (global->champion == NULL) {
+        global->champion = malloc(sizeof(champion_t));
+        tmp = global->champion;
+    } else {
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp->next = malloc(sizeof(champion_t));
+        tmp = tmp->next;
+    }
+    tmp = initchampion();
+    global->nb_champion++;
+    getchampioninfos(tmp, buffer);
     return;
 }
 
@@ -26,7 +73,7 @@ int process_args(int argc, char const *argv[], global_t *global)
 {
     char *buffer;
     ssize_t size;
-    champion_t *tmp = global->champion;
+    champion_t *tmp = NULL;
 
     for (int i = 0; i < argc; i++) {
         if (read_file(argv[i], &buffer, &size) != 0)
