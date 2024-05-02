@@ -41,7 +41,7 @@ static global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
 
-    global->champion = NULL;
+    global->champions = NULL;
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;

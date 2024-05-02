@@ -19,8 +19,6 @@ static champion_t *initchampion(void)
 
     champion->id = id;
     id++;
-    champion->name = malloc(sizeof(char) * PROG_NAME_LENGTH + 1);
-    champion->comment = malloc(sizeof(char) * COMMENT_LENGTH + 1);
     champion->size = 0;
     champion->address = 0;
     champion->alive = 0;
@@ -36,15 +34,28 @@ static champion_t *initchampion(void)
 
 static void getheader(champion_t *champion, char *buffer, int *i)
 {
-    return;
+    for (int j = 0; j < PROG_NAME_LENGTH; j++) {
+        champion->name[j] = buffer[*i];
+        (*i)++;
+    }
+    (*i) += 4;
+    champion->size = swap_int_bytes(buffer[*i] | (buffer[*i + 1] << 8)
+        | (buffer[*i + 2] << 16) | (buffer[*i + 3] << 24));
+    (*i) += 4;
+    for (int j = 0; j < COMMENT_LENGTH; j++) {
+        champion->comment[j] = buffer[*i];
+        (*i)++;
+    }
 }
 
 static void getchampioninfos(champion_t *champion, char *buffer)
 {
     int i = 4;
-    int n = 10;
 
     getheader(champion, buffer, &i);
+    printf("name: %s\n", champion->name);
+    printf("size: %d\n", champion->size);
+    printf("comment: %s\n", champion->comment);
     return;
 }
 
@@ -57,9 +68,9 @@ static void getchampioninfos(champion_t *champion, char *buffer)
  */
 void storebuffer(char *buffer, global_t *global, champion_t *tmp)
 {
-    if (global->champion == NULL) {
-        global->champion = malloc(sizeof(champion_t));
-        tmp = global->champion;
+    if (global->champions == NULL) {
+        global->champions = malloc(sizeof(champion_t));
+        tmp = global->champions;
     } else {
         while (tmp != NULL)
             tmp = tmp->next;

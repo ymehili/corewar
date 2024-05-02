@@ -29,8 +29,8 @@ typedef struct instruction_s {
 
 typedef struct champion_s {
     int id;
-    char *name;
-    char *comment;
+    char name[PROG_NAME_LENGTH + 1];
+    char comment[COMMENT_LENGTH + 1];
     char *code;
     int size;
     int address;
@@ -44,7 +44,7 @@ typedef struct champion_s {
 } champion_t;
 
 typedef struct global_s {
-    champion_t *champion;
+    champion_t *champions;
     int nb_champion;
     int cycle_to_die;
     int cycle;
