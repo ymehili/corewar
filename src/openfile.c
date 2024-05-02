@@ -51,7 +51,7 @@ int read_from_file(int fd, char **buffer, int *size)
  *                  stored.
  * @return          0 if the file was successfully read, 1 otherwise.
  */
-int read_file(const char *filename, char **buffer, int *size)
+int read_bfile(const char *filename, char **buffer, int *size)
 {
     int fd = open(filename, O_RDONLY);
 

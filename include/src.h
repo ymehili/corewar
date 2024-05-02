@@ -50,4 +50,8 @@ typedef struct global_s {
     int cycle;
 } global_t;
 
+void *my_memset(void *s, int c, size_t n);
+int read_bfile(const char *filename, char **buffer, int *size);
+void storebuffer(char *buffer, global_t *global, champion_t *tmp);
+
 #endif /* !SRC_H_ */
