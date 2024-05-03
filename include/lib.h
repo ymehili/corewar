@@ -7,7 +7,6 @@
 
 #ifndef LIB_H_
     #define LIB_H_
-    #define NB_COMMAND 16
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>

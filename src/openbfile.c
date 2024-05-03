@@ -33,14 +33,7 @@ static int get_file_size(int fd)
 int read_from_file(int fd, char **buffer, int *size)
 {
     int bytesread = read(fd, *buffer, *size);
-    printf("Bytes read: %d\n", bytesread);
-    if (bytesread > 0) {
-        printf("Buffer contents (first few bytes): ");
-        for (int i = 0; i < bytesread; i++) {
-            printf("%02x ", (unsigned char)(*buffer)[i]);
-        }
-        printf("\n");
-    }
+
     if (bytesread == -1) {
         free(*buffer);
         return 1;
@@ -48,16 +41,6 @@ int read_from_file(int fd, char **buffer, int *size)
     return 0;
 }
 
-// int read_from_file(int fd, char **buffer, int *size)
-// {
-//     int bytesread = read(fd, *buffer, *size);
-//     printf("mon bytesread (%d et buf [%s])\n", bytesread, *buffer);
-//     if (bytesread == -1) {
-//         free(*buffer);
-//         return 1;
-//     }
-//     return 0;
-// }
 /**
  * @brief           Reads the contents of a file into a buffer.
  *
@@ -75,7 +58,6 @@ int read_bfile(const char *filename, char **buffer, int *size)
     if (fd == -1)
         return 1;
     *size = get_file_size(fd);
-    printf("my size %d\n", *size);
     if (*size == -1)
         return 1;
     *buffer = malloc(sizeof(char *) * (*size + 1));

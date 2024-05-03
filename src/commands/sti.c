@@ -9,5 +9,6 @@
 
 int sti(global_t *global, champion_t *champion)
 {
+    printf("je suis dans sti\n");
     return 0;
 }

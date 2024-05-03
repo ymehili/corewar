@@ -7,7 +7,7 @@
 
 #include "../include/src.h"
 
-static void init_command(champion_t *global)
+static void init_command(global_t *global)
 {
     global->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
 
@@ -48,7 +48,6 @@ static int process_args(int argc, char const *argv[], global_t *global)
     for (int i = 1; i < argc; i++) {
         if (read_bfile(argv[i], &buffer, &size) != 0)
             return 1;
-        printf("mon buffer dans process_args (%s)\n", buffer);
         storebuffer(buffer, global, tmp);
         free(buffer);
     }
@@ -85,7 +84,7 @@ void create_map(global_t *global)
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
-        printf("the start is %d and champion size = %s and his code %s\n",debut ,tmp->name, tmp->code);
+        printf("the start is %d and champion size = %s\n",debut ,tmp->name, tmp->code);
         for (int j = 0; j < tmp->size; j++)
             global->map[debut + j] = tmp->code[j];
         tmp->alive = 1;
@@ -94,16 +93,16 @@ void create_map(global_t *global)
     }
     for (int i = 0; i < MEM_SIZE; i++)
         printf("%02x ", global->map[i]);
+    printf("\n");
 }
 
-void launch_game(global_t *global)
+
+void launch_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *))
 {
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
         if (tmp->wait == 0) {
-            for (int i = 0; op_tab[i].mnemonique; i++)
-                if (op_tab[i].code == global->map[tmp->pc]){
-
-                }
+            new_op(global, tmp, all_command);
         }
     }
 }
@@ -125,7 +124,7 @@ int main(int argc, char const *argv[])
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);
-    launch_game(global);
+    launch_game(global, all_command);
     return 0;
 }
 

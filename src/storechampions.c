@@ -70,7 +70,6 @@ static void getchampioninfos(champion_t *champion, char *buffer)
 
     getheader(champion, buffer, &i);
     champion->code = malloc(sizeof(char) * champion->size);
-    printf("voici mon buffer : (%s)\n", buffer);
     for (int j = 0; j < champion->size; j++) {
         champion->code[j] = buffer[i];
         i++;
