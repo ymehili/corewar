@@ -86,15 +86,17 @@ static void getchampioninfos(champion_t *champion, char *buffer)
  */
 void storebuffer(char *buffer, global_t *global, champion_t *tmp)
 {
+    champion_t *new_champion = malloc(sizeof(champion_t));
+
+    new_champion = initchampion();
+    getchampioninfos(new_champion, buffer);
     if (global->champions == NULL) {
-        global->champions = malloc(sizeof(champion_t));
-        tmp = global->champions;
+        global->champions = new_champion;
     } else {
-        while (tmp != NULL)
+        tmp = global->champions;
+        while (tmp->next != NULL)
             tmp = tmp->next;
-        tmp = malloc(sizeof(champion_t));
+        tmp->next = new_champion;
     }
-    tmp = initchampion();
     global->nb_champion++;
-    getchampioninfos(tmp, buffer);
 }

@@ -23,7 +23,7 @@ static int process_args(int argc, char const *argv[], global_t *global)
     int size;
     champion_t *tmp = NULL;
 
-    for (int i = 1; i <= argc; i++) {
+    for (int i = 1; i < argc; i++) {
         if (read_bfile(argv[i], &buffer, &size) != 0)
             return 1;
         storebuffer(buffer, global, tmp);
@@ -51,16 +51,20 @@ static global_t *initglobal(void)
 void create_map(global_t *global)
 {
     int debut = 0;
-    global->map = my_malloc(sizeof(char) * MEM_SIZE);
     champion_t *tmp = global->champions;
 
+    global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
+        printf("champion size = %s\n", tmp->name);
         for (int j = 0; j < tmp->size; j++)
             global->map[debut + j] = tmp->code[j];
+        tmp->alive = 1;
+        tmp->pc = debut;
+        tmp = tmp->next;
     }
     for (int i = 0; i < MEM_SIZE; i++)
-        printf("%02x", global->map[i]);
+        printf("%02x ", global->map[i]);
 }
 
 /**
