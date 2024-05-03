@@ -11,12 +11,28 @@
 #include <stdio.h>
 #include "../../include/lib.h"
 
+/**
+ * @brief       Writes a single character to the standard output and increments
+ *              the count.
+ *
+ * @param c     The character to be written.
+ * @param count A pointer to the count variable that keeps track of the number
+ *              of characters written.
+ */
 static void mini_putchar(char c, int *count)
 {
     write(1, &c, 1);
     *count = *count + 1;
 }
 
+/**
+ * @brief       Prints an integer to the standard output.
+ *
+ * @param nb    The integer to be printed.
+ * @param count A pointer to an integer representing the count of characters
+ *              printed.
+ * @return      0 on success.
+ */
 static int mini_put_nbr(int nb, int *count)
 {
     if (nb < 0) {
@@ -37,12 +53,28 @@ static int mini_put_nbr(int nb, int *count)
     return 0;
 }
 
+/**
+ * @brief       Writes a string to the standard output.
+ *
+ * @param str   The string to be written.
+ * @param count A pointer to an integer that keeps track of the number of
+ *              characters written.
+ * @return      0 on success.
+ */
 static int mini_putstr(char const *str, int *count)
 {
     write(1, str, my_strlen(str));
     return 0;
 }
 
+/**
+ * @brief           This function handles the formatting and printing of
+ *                  different types of data.
+ *
+ * @param format    The format specifier character.
+ * @param args      A pointer to the variable argument list.
+ * @param count     A pointer to the count of characters printed.
+ */
 static void function(char format, va_list *args, int *count)
 {
     switch (format) {
@@ -63,6 +95,14 @@ static void function(char format, va_list *args, int *count)
     *count = -2147483648;
 }
 
+/**
+ * @brief           Implements a simplified version of printf function.
+ *
+ * @param format    The format string specifying the output format.
+ * @param ...       The variable number of arguments to be formatted and
+ *                  printed.
+ * @return          The number of characters printed.
+ */
 int mini_printf(const char *format, ...)
 {
     va_list args;

@@ -7,6 +7,13 @@
 
 #include "../../include/lib.h"
 
+/**
+ * @brief       Duplicate a string.
+ *
+ * @param str   The string to be duplicated.
+ * @return      A pointer to the duplicated string, or NULL if `str` is NULL or
+ *              if memory allocation fails.
+ */
 char *my_strdup(const char *str)
 {
     int len;
@@ -17,9 +24,6 @@ char *my_strdup(const char *str)
     }
     len = my_strlen(str);
     newStr = malloc(sizeof(char *) * (len + 1));
-    if (newStr == NULL) {
-        return NULL;
-    }
     my_strcpy(newStr, str);
     return newStr;
 }

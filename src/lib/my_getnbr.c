@@ -8,6 +8,12 @@
 #include <unistd.h>
 #include <stdio.h>
 
+/**
+ * @brief       Converts a string to an integer.
+ *
+ * @param str   The string to convert.
+ * @return      The converted integer value.
+ */
 int my_getnbr(const char *str)
 {
     int result = 0;

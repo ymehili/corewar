@@ -7,6 +7,13 @@
 
 #include "../../include/lib.h"
 
+/**
+ * @brief Concatenates two strings.
+ *
+ * @param dest  The destination string.
+ * @param src   The source string.
+ * @return      A pointer to the destination string.
+ */
 char *my_strcat(char *dest, char const *src)
 {
     int len = my_strlen(dest);

@@ -7,6 +7,17 @@
 
 #include "../../include/lib.h"
 
+/**
+ * @brief       Copies characters from the source string until a quotation mark
+ *              is encountered. The copied characters are stored in the
+ *              destination string.
+ *
+ * @param src   The source string to copy from.
+ * @param start The starting index in the source string.
+ * @param dest  The destination string to copy to.
+ * @return      The index of the character after the quotation mark in the
+ *              source string.
+ */
 int copy_until_quote(char *src, int start, char *dest)
 {
     int j = 0;
@@ -20,6 +31,15 @@ int copy_until_quote(char *src, int start, char *dest)
     return start;
 }
 
+/**
+ * @brief       Retrieves the substring enclosed between the first pair of quotation marks
+ *              in a given string.
+ *
+ * @param str   The input string.
+ * @return      A string containing the substring between the quotation marks,
+ *              or NULL if no quotation marks are found or memory allocation
+ *              fails.
+ */
 char *getbetweenquotationmarks(char *str)
 {
     int i = 0;
