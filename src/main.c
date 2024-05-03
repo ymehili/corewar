@@ -11,22 +11,22 @@ static void init_command(champion_t *tmp)
 {
     tmp->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
 
-    tmp->commands[0] = my_strdup("0x01");
-    tmp->commands[1] = my_strdup("0x02");
-    tmp->commands[2] = my_strdup("0x03");
-    tmp->commands[3] = my_strdup("0x04");
-    tmp->commands[4] = my_strdup("0x05");
-    tmp->commands[5] = my_strdup("0x06");
-    tmp->commands[6] = my_strdup("0x07");
-    tmp->commands[7] = my_strdup("0x08");
-    tmp->commands[8] = my_strdup("0x09");
-    tmp->commands[9] = my_strdup("0x0a");
-    tmp->commands[10] = my_strdup("0x0b");
-    tmp->commands[11] = my_strdup("0x0c");
-    tmp->commands[12] = my_strdup("0x0d");
-    tmp->commands[13] = my_strdup("0x0e");
-    tmp->commands[14] = my_strdup("0x0f");
-    tmp->commands[15] = my_strdup("0x10");
+    tmp->commands[0] = my_strdup("01");
+    tmp->commands[1] = my_strdup("02");
+    tmp->commands[2] = my_strdup("03");
+    tmp->commands[3] = my_strdup("04");
+    tmp->commands[4] = my_strdup("05");
+    tmp->commands[5] = my_strdup("06");
+    tmp->commands[6] = my_strdup("07");
+    tmp->commands[7] = my_strdup("08");
+    tmp->commands[8] = my_strdup("09");
+    tmp->commands[9] = my_strdup("0a");
+    tmp->commands[10] = my_strdup("0b");
+    tmp->commands[11] = my_strdup("0c");
+    tmp->commands[12] = my_strdup("0d");
+    tmp->commands[13] = my_strdup("0e");
+    tmp->commands[14] = my_strdup("0f");
+    tmp->commands[15] = my_strdup("10");
 }
 
 /**
