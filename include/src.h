@@ -70,4 +70,7 @@ int sti(global_t *global, champion_t *champion);
 int sub(global_t *global, champion_t *champion);
 int xor(global_t *global, champion_t *champion);
 int zjmp(global_t *global, champion_t *champion);
+
+int get_register(global_t *global, champion_t *champion, int size);
+int get_direct(global_t *global, champion_t *champion, int size);
 #endif /* !SRC_H_ */

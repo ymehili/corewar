@@ -7,26 +7,26 @@
 
 #include "../include/src.h"
 
-static void init_command(champion_t *tmp)
+static void init_command(champion_t *global)
 {
-    tmp->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
+    global->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
 
-    tmp->commands[0] = my_strdup("01");
-    tmp->commands[1] = my_strdup("02");
-    tmp->commands[2] = my_strdup("03");
-    tmp->commands[3] = my_strdup("04");
-    tmp->commands[4] = my_strdup("05");
-    tmp->commands[5] = my_strdup("06");
-    tmp->commands[6] = my_strdup("07");
-    tmp->commands[7] = my_strdup("08");
-    tmp->commands[8] = my_strdup("09");
-    tmp->commands[9] = my_strdup("0a");
-    tmp->commands[10] = my_strdup("0b");
-    tmp->commands[11] = my_strdup("0c");
-    tmp->commands[12] = my_strdup("0d");
-    tmp->commands[13] = my_strdup("0e");
-    tmp->commands[14] = my_strdup("0f");
-    tmp->commands[15] = my_strdup("10");
+    global->commands[0] = my_strdup("01");
+    global->commands[1] = my_strdup("02");
+    global->commands[2] = my_strdup("03");
+    global->commands[3] = my_strdup("04");
+    global->commands[4] = my_strdup("05");
+    global->commands[5] = my_strdup("06");
+    global->commands[6] = my_strdup("07");
+    global->commands[7] = my_strdup("08");
+    global->commands[8] = my_strdup("09");
+    global->commands[9] = my_strdup("0a");
+    global->commands[10] = my_strdup("0b");
+    global->commands[11] = my_strdup("0c");
+    global->commands[12] = my_strdup("0d");
+    global->commands[13] = my_strdup("0e");
+    global->commands[14] = my_strdup("0f");
+    global->commands[15] = my_strdup("10");
 }
 
 /**
@@ -67,7 +67,7 @@ static global_t *initglobal(void)
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;
-    init_command(tmp);
+    init_command(global);
     return global;
 }
 
@@ -118,7 +118,7 @@ int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
     int (*all_command[NB_COMMAND])(global_t *, champion_t *) = {
-        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork,
+        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork_func,
         &lld, &lldi, &lfork, &aff
     };
     if (process_args(argc, argv, global))

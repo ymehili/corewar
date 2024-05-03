@@ -52,11 +52,6 @@ fclean: clean
 	@rm -f $(EXECUTABLE)
 	@rm -f tester$(EXECUTABLE)
 
-tester: all
-	@cp $(EXECUTABLE) tester
-	@cd tester && ./tester.sh && rm -f $(EXECUTABLE)
-	make fclean
-
 unit_tests:
 	$(CC) $(CFLAGS) $(SOURCES_FILES_TEST) $(TESTER_FILES) -lcriterion \
 	--coverage -o $(TEST_EXECUTABLE)
