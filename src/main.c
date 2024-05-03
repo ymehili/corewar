@@ -48,6 +48,11 @@ static global_t *initglobal(void)
     return global;
 }
 
+/**
+ * @brief           Creates the memory map for the Corewar game.
+ *
+ * @param global    The global structure containing game data.
+ */
 void create_map(global_t *global)
 {
     int debut = 0;
@@ -67,6 +72,18 @@ void create_map(global_t *global)
         printf("%02x ", global->map[i]);
 }
 
+void launch_game(global_t *global)
+{
+    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+        if (tmp->wait == 0) {
+            for (int i = 0; op_tab[i].mnemonique; i++)
+                if (op_tab[i].code == global->map[tmp->pc]){
+
+                }
+        }
+    }
+}
+
 /**
  * @brief       The main function of the program.
  *
@@ -81,5 +98,6 @@ int main(int argc, char const *argv[])
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);
+    launch_game(global);
     return 0;
 }

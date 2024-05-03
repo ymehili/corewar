@@ -17,15 +17,14 @@
 typedef struct global_s global_t;
 typedef struct champion_s champion_t;
 
-typedef struct instruction_s {
-    int code;
-    int nb_arg;
-    int type[4];
-    int size;
-    int cycle;
-    int carry;
-    void (*fct)(champion_t *champion, global_t *global);
-} instruction_t;
+typedef struct argument_s {
+    int one;
+    int two;
+    int three;
+    int four;
+} argument_t;
+
+
 
 typedef struct champion_s {
     int id;
@@ -49,6 +48,7 @@ typedef struct global_s {
     int cycle_to_die;
     int cycle;
     char *map;
+    int *(*commands)(int, int, int, int)
 } global_t;
 
 void *my_memset(void *s, int c, size_t n);
