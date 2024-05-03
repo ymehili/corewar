@@ -47,7 +47,6 @@ typedef struct global_s {
     int cycle_to_die;
     int cycle;
     char *map;
-    int *(*commands)(int, int, int, int);
 } global_t;
 
 void *my_memset(void *s, int c, size_t n);
