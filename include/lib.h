@@ -27,5 +27,6 @@ char *my_strcat(char *dest, char const *src);
 char *my_strdup(const char *str);
 int swap_int_bytes(int nbr);
 short swap_short_bytes(short nbr);
+void *my_malloc(int size);
 
 #endif /* !LIB_H_ */

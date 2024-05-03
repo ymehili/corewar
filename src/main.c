@@ -48,6 +48,21 @@ static global_t *initglobal(void)
     return global;
 }
 
+void create_map(global_t *global)
+{
+    int debut = 0;
+    global->map = my_malloc(sizeof(char) * MEM_SIZE);
+    champion_t *tmp = global->champions;
+
+    for (int i = 0; i < global->nb_champion; i++) {
+        debut = (MEM_SIZE / global->nb_champion) * i;
+        for (int j = 0; j < tmp->size; j++)
+            global->map[debut + j] = tmp->code[j];
+    }
+    for (int i = 0; i < MEM_SIZE; i++)
+        printf("%02x", global->map[i]);
+}
+
 /**
  * @brief       The main function of the program.
  *
@@ -61,5 +76,6 @@ int main(int argc, char const *argv[])
 
     if (process_args(argc, argv, global))
         return 84;
+    create_map(global);
     return 0;
 }

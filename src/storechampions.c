@@ -57,11 +57,23 @@ static void getheader(champion_t *champion, char *buffer, int *i)
     (*i) += 4;
 }
 
+/**
+ * @brief           Retrieves the information of a champion from a buffer and
+ *                  stores it in a champion structure.
+ *
+ * @param champion  The champion structure to store the information in.
+ * @param buffer    The buffer containing the champion information.
+ */
 static void getchampioninfos(champion_t *champion, char *buffer)
 {
     int i = 4;
 
     getheader(champion, buffer, &i);
+    champion->code = malloc(sizeof(char) * champion->size);
+    for (int j = 0; j < champion->size; j++) {
+        champion->code[j] = buffer[i];
+        i++;
+    }
     return;
 }
 

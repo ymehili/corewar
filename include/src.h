@@ -48,6 +48,7 @@ typedef struct global_s {
     int nb_champion;
     int cycle_to_die;
     int cycle;
+    char *map;
 } global_t;
 
 void *my_memset(void *s, int c, size_t n);
