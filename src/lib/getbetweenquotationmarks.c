@@ -32,8 +32,8 @@ int copy_until_quote(char *src, int start, char *dest)
 }
 
 /**
- * @brief       Retrieves the substring enclosed between the first pair of quotation marks
- *              in a given string.
+ * @brief       Retrieves the substring enclosed between the first pair of
+ *              quotation marks in a given string.
  *
  * @param str   The input string.
  * @return      A string containing the substring between the quotation marks,

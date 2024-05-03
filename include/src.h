@@ -33,13 +33,13 @@ typedef struct champion_s {
     char comment[COMMENT_LENGTH + 1];
     char *code;
     int size;
-    int address;
     int alive;
     int last_live;
     int nb_live;
     int carry;
     int reg[REG_NUMBER];
-    instruction_t *instructions;
+    int pc;
+    int wait;
     struct champion_s *next;
 } champion_t;
 

@@ -20,14 +20,14 @@ static champion_t *initchampion(void)
     champion->id = id;
     id++;
     champion->size = 0;
-    champion->address = 0;
+    champion->pc = 0;
+    champion->wait = 0;
     champion->alive = 0;
     champion->last_live = 0;
     champion->nb_live = 0;
     champion->carry = 0;
     for (int i = 0; i < REG_NUMBER; i++)
         champion->reg[i] = 0;
-    champion->instructions = NULL;
     champion->next = NULL;
     return champion;
 }
@@ -54,6 +54,7 @@ static void getheader(champion_t *champion, char *buffer, int *i)
         champion->comment[j] = buffer[*i];
         (*i)++;
     }
+    (*i) += 4;
 }
 
 static void getchampioninfos(champion_t *champion, char *buffer)
