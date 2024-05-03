@@ -21,4 +21,3 @@ int live(global_t *global, champion_t *champion)
     champion->pc = champion->pc + 6;
     return 0;
 }
-
