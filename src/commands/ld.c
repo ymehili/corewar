@@ -7,3 +7,7 @@
 
 #include "../../include/src.h"
 
+int ld(global_t *global, champion_t *champion)
+{
+    return 0;
+}

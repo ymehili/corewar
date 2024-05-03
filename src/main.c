@@ -7,6 +7,28 @@
 
 #include "../include/src.h"
 
+static void init_command(champion_t *tmp)
+{
+    tmp->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
+
+    tmp->commands[0] = my_strdup("0x01");
+    tmp->commands[1] = my_strdup("0x02");
+    tmp->commands[2] = my_strdup("0x03");
+    tmp->commands[3] = my_strdup("0x04");
+    tmp->commands[4] = my_strdup("0x05");
+    tmp->commands[5] = my_strdup("0x06");
+    tmp->commands[6] = my_strdup("0x07");
+    tmp->commands[7] = my_strdup("0x08");
+    tmp->commands[8] = my_strdup("0x09");
+    tmp->commands[9] = my_strdup("0x0a");
+    tmp->commands[10] = my_strdup("0x0b");
+    tmp->commands[11] = my_strdup("0x0c");
+    tmp->commands[12] = my_strdup("0x0d");
+    tmp->commands[13] = my_strdup("0x0e");
+    tmp->commands[14] = my_strdup("0x0f");
+    tmp->commands[15] = my_strdup("0x10");
+}
+
 /**
  * @brief           Process the command line arguments and store the contents
  *                  of the files in the global structure.
@@ -45,6 +67,7 @@ static global_t *initglobal(void)
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;
+    init_command(tmp);
     return global;
 }
 
@@ -94,7 +117,10 @@ void launch_game(global_t *global)
 int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
-
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *) = {
+        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork,
+        &lld, &lldi, &lfork, &aff
+    };
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);

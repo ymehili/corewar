@@ -7,3 +7,7 @@
 
 #include "../../include/src.h"
 
+int sti(global_t *global, champion_t *champion)
+{
+    return 0;
+}
