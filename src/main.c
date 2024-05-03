@@ -84,7 +84,7 @@ void create_map(global_t *global)
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
-        printf("champion size = %s\n", tmp->name);
+        printf("the start is %d and champion size = %s\n",debut ,tmp->name);
         for (int j = 0; j < tmp->size; j++)
             global->map[debut + j] = tmp->code[j];
         tmp->alive = 1;
@@ -127,3 +127,4 @@ int main(int argc, char const *argv[])
     launch_game(global);
     return 0;
 }
+
