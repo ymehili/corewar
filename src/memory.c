@@ -11,13 +11,14 @@
  * @brief               print parameters to understand
  *
  * @param op_opcode     It's the opcode name
- * @param op_codingbyte 4 values to represente the codingbyte with 4 possibilites
+ * @param op_codingbyte 4 values to represente the codingbyte (4 ways)
  *                      00 : 01 : 10 : 11 (who is print 0 : 1 : 2 : 3)
  *                      it show if it's a register, direct, indirect etc
- * @param op_param      it's a array of size 2 who contains all the parameters of the function
+ * @param op_param      it's a array of size 2 who contains all the parameters
+ *                      of the function
  *                      (j'ai pas très bien compris psq cq devrait print
- *                      01 00 07 00 01 01 les args de l'opcode quoi mais a voir lundi)
- *  
+ *                      01 00 07 00 01 01 les args de l'opcode)
+ *
  */
 static void print_debug(pc_t *op)
 {
@@ -35,12 +36,10 @@ static void print_debug(pc_t *op)
  * @param op        The struct that contains all the command informations
  * @param global    The global structure containing game data.
 
- * @return          return the position of the function or -1 if not 
+ * @return          return the position of the function or -1 if not
  */
 static int wich_job(pc_t *op, global_t *global)
 {
-    // return 10; // test return the sti function
-    // todo comparaison between hexa and str to find the command
     for (int i = 0 ; i < NB_COMMAND; i++) {
         if (op->opcode == global->commands[i])
             return i;
@@ -51,8 +50,10 @@ static int wich_job(pc_t *op, global_t *global)
 /**
  * @brief       create a structure of the command and start this one
  *
- * @param struct_op  this struct pc_t (not op) is a pointer to the position of a commant (example 0 for the first job
- *                   the struct add automatically all the bytes (without malloc) to his parameters
+ * @param struct_op  this struct pc_t (not op) is a pointer to the position of
+ *                   a command (example 0 for the first job
+ *                   the struct add automatically all the bytes
+ *                   (without malloc) to his parameters
  *
  * @param all_command Its the array that pointing all the functions
 
@@ -75,12 +76,16 @@ int new_op(global_t *global, champion_t *tmp,
 
 /**
  * @todo  - Function to find with codingbyte type is (Just switch case etc)
- *        - add swap bigindian to littlebigindia (just reverse codingbyte.p1 with p2 etc)
+ *        - add swap bigindian to littlebigindia (just reverse codingbyte.p1
+ *          with p2 etc)
  *          askip je crois c'est aussi simple
  *        - start the command with the good parameters
- * Voila en gros ca ça doit etre le début de la vidéo et cette manière la ca devrait permettre
- * de coder plus simplement chaque fonction et d'avancer mieux dans les bytes après
- * A voir comment t'es à l'aise avec le code la est si tu le comprend et si tu t'y retrouve dans 
+ * Voila en gros ca ça doit etre le début de la vidéo et cette manière la ca
+ * devrait permettre
+ * de coder plus simplement chaque fonction et d'avancer mieux dans
+ * les bytes après
+ * A voir comment t'es à l'aise avec le code la est si tu le
+ * omprend et si tu t'y retrouve dans
  * la video mais on pourra retourner vers nathan de toute facon
- * 
+ *
 */

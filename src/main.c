@@ -10,7 +10,6 @@
 static void init_command(global_t *global)
 {
     global->commands = malloc(sizeof(char) * NB_COMMAND + 1);
-
     global->commands[0] = 0x01;
     global->commands[1] = 0x02;
     global->commands[2] = 0x03;
@@ -96,7 +95,6 @@ void create_map(global_t *global)
     printf("\n");
 }
 
-
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
@@ -118,8 +116,8 @@ int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *) = {
-        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork_func,
-        &lld, &lldi, &lfork, &aff
+        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti,
+        &fork_func, &lld, &lldi, &lfork, &aff
     };
     if (process_args(argc, argv, global))
         return 84;
@@ -127,4 +125,3 @@ int main(int argc, char const *argv[])
     launch_game(global, all_command);
     return 0;
 }
-
