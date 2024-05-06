@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int live(global_t *global, champion_t *champion)
+int live(global_t *global, champion_t *champion, pc_t *op)
 {
     int value = 0;
     int reg = 0;

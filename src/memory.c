@@ -22,12 +22,11 @@
 static void print_debug(pc_t *op)
 {
     printf("opcode (%02x)\n", op->opcode);
-    printf("codingbyte 1(%01x)\n", op->codingbyte.p1);
-    printf("codingbyte 2(%01x)\n", op->codingbyte.p2);
-    printf("codingbyte 3(%01x)\n", op->codingbyte.p3);
-    printf("codingbyte 4(%01x)\n", op->codingbyte.p4);
-    printf("params (%s)\n", op->params);
-    printf("params 2 (%02x)\n", op->params[1]);
+    printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
+    printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
+    printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
+    printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
+    printf("params 2 (%0b)\n", op->params);
 }
 
 /**
@@ -40,10 +39,10 @@ static void print_debug(pc_t *op)
  */
 static int wich_job(pc_t *op, global_t *global)
 {
-    return 10; // test return the sti function
+    // return 10; // test return the sti function
     // todo comparaison between hexa and str to find the command
     for (int i = 0 ; i < NB_COMMAND; i++) {
-        if (my_strcmp(op->opcode, global->commands[i]) == 0)
+        if (op->opcode == global->commands[i])
             return i;
     }
     return -1;
@@ -60,7 +59,7 @@ static int wich_job(pc_t *op, global_t *global)
  * @return      return the result of the command
  */
 int new_op(global_t *global, champion_t *tmp,
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *))
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
     int pointer_command = 0;
     pc_t *op = (pc_t *)&global->map[tmp->pc];
@@ -68,8 +67,9 @@ int new_op(global_t *global, champion_t *tmp,
     print_debug(op);
     pointer_command = wich_job(op, global);
     if (pointer_command != -1) {
-        return (all_command[pointer_command](global, tmp));
+        return (all_command[pointer_command](global, tmp, op));
     }
+    return 0;
 }
 
 

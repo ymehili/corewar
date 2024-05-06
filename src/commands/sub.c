@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int sub(global_t *global, champion_t *champion)
+int sub(global_t *global, champion_t *champion, pc_t *op)
 {
     int reg1 = 0;
     int reg2 = 0;

@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int aff(global_t *global, champion_t *champion)
+int aff(global_t *global, champion_t *champion, pc_t *op)
 {
     int value = 0;
     int reg = 0;

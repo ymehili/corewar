@@ -9,24 +9,24 @@
 
 static void init_command(global_t *global)
 {
-    global->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
+    global->commands = malloc(sizeof(char) * NB_COMMAND + 1);
 
-    global->commands[0] = my_strdup("01");
-    global->commands[1] = my_strdup("02");
-    global->commands[2] = my_strdup("03");
-    global->commands[3] = my_strdup("04");
-    global->commands[4] = my_strdup("05");
-    global->commands[5] = my_strdup("06");
-    global->commands[6] = my_strdup("07");
-    global->commands[7] = my_strdup("08");
-    global->commands[8] = my_strdup("09");
-    global->commands[9] = my_strdup("0a");
-    global->commands[10] = my_strdup("0b");
-    global->commands[11] = my_strdup("0c");
-    global->commands[12] = my_strdup("0d");
-    global->commands[13] = my_strdup("0e");
-    global->commands[14] = my_strdup("0f");
-    global->commands[15] = my_strdup("10");
+    global->commands[0] = 0x01;
+    global->commands[1] = 0x02;
+    global->commands[2] = 0x03;
+    global->commands[3] = 0x04;
+    global->commands[4] = 0x05;
+    global->commands[5] = 0x06;
+    global->commands[6] = 0x07;
+    global->commands[7] = 0x08;
+    global->commands[8] = 0x09;
+    global->commands[9] = 0x0a;
+    global->commands[10] = 0x0b;
+    global->commands[11] = 0x0c;
+    global->commands[12] = 0x0d;
+    global->commands[13] = 0x0e;
+    global->commands[14] = 0x0f;
+    global->commands[15] = 0x10;
 }
 
 /**
@@ -98,7 +98,7 @@ void create_map(global_t *global)
 
 
 void launch_game(global_t *global,
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *))
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
         if (tmp->wait == 0) {
@@ -117,7 +117,7 @@ void launch_game(global_t *global,
 int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *) = {
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *) = {
         &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork_func,
         &lld, &lldi, &lfork, &aff
     };

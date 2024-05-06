@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int or(global_t *global, champion_t *champion)
+int or(global_t *global, champion_t *champion, pc_t *op)
 {
     return 0;
 }
