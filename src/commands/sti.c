@@ -7,6 +7,14 @@
 
 #include "../../include/src.h"
 
+/**
+ * @brief           Stores the value of a register in the memory.
+ *
+ * @param global    The global state of the program.
+ * @param champion  The current champion executing the command.
+ * @param op        The current operation containing the parameters.
+ * @return          0 if the command executed successfully, otherwise 1.
+ */
 int sti_command(global_t *global, champion_t *champion, pc_t *op)
 {
     int paramone = get_params(global, champion, op, op->codingbyte.p1);
