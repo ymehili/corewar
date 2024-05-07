@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int st(global_t *global, champion_t *champion, pc_t *op)
+int st_command(global_t *global, champion_t *champion, pc_t *op)
 {
     return 0;
 }

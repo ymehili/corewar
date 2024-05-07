@@ -25,4 +25,5 @@ int get_params(char param)
         default:
             break;
     }
+    return 0;
 }

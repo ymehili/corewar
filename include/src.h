@@ -42,10 +42,10 @@ typedef struct champion_s {
 } champion_t;
 
 typedef struct coding_s {
-    unsigned char p1:2;
-    unsigned char p2:2;
-    unsigned char p3:2;
-    unsigned char p4:2;
+    unsigned char p1 : 2;
+    unsigned char p2 : 2;
+    unsigned char p3 : 2;
+    unsigned char p4 : 2;
 } coding_t;
 typedef struct pc_s {
     unsigned char opcode;
@@ -53,7 +53,7 @@ typedef struct pc_s {
     char params[1];
 } pc_t;
 typedef struct global_s {
-    struct champion_t *champions;
+    champion_t *champions;
     int nb_champion;
     int cycle_to_die;
     int cycle;
@@ -66,22 +66,23 @@ void *my_memset(void *s, int c, size_t n);
 int read_bfile(const char *filename, char **buffer, int *size);
 void storebuffer(char *buffer, global_t *global, champion_t *tmp);
 
-int add(global_t *global, champion_t *champion, pc_t *op);
-int aff(global_t *global, champion_t *champion, pc_t *op);
-int and(global_t *global, champion_t *champion, pc_t *op);
-int fork_func(global_t *global, champion_t *champion, pc_t *op);
-int ld(global_t *global, champion_t *champion, pc_t *op);
-int ldi(global_t *global, champion_t *champion, pc_t *op);
-int lldi(global_t *global, champion_t *champion, pc_t *op);
-int lfork(global_t *global, champion_t *champion, pc_t *op);
-int live(global_t *global, champion_t *champion, pc_t *op);
-int lld(global_t *global, champion_t *champion, pc_t *op);
-int or(global_t *global, champion_t *champion, pc_t *op);
-int st(global_t *global, champion_t *champion, pc_t *op);
-int sti(global_t *global, champion_t *champion, pc_t *op);
-int sub(global_t *global, champion_t *champion, pc_t *op);
-int xor(global_t *global, champion_t *champion, pc_t *op);
-int zjmp(global_t *global, champion_t *champion, pc_t *op);
+int add_command(global_t *global, champion_t *champion, pc_t *op);
+int aff_command(global_t *global, champion_t *champion, pc_t *op);
+int and_command(global_t *global, champion_t *champion, pc_t *op);
+int fork_command(global_t *global, champion_t *champion, pc_t *op);
+int ld_command(global_t *global, champion_t *champion, pc_t *op);
+int ldi_command(global_t *global, champion_t *champion, pc_t *op);
+int lfork_command(global_t *global, champion_t *champion, pc_t *op);
+int live_command(global_t *global, champion_t *champion, pc_t *op);
+int lld_command(global_t *global, champion_t *champion, pc_t *op);
+int lldi_command(global_t *global, champion_t *champion, pc_t *op);
+int or_command(global_t *global, champion_t *champion, pc_t *op);
+int st_command(global_t *global, champion_t *champion, pc_t *op);
+int sti_command(global_t *global, champion_t *champion, pc_t *op);
+int sub_command(global_t *global, champion_t *champion, pc_t *op);
+int xor_command(global_t *global, champion_t *champion, pc_t *op);
+int zjmp_command(global_t *global, champion_t *champion, pc_t *op);
+
 
 int get_register(global_t *global, champion_t *champion, int size);
 int get_direct(global_t *global, champion_t *champion, int size);

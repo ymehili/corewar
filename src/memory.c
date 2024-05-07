@@ -40,7 +40,7 @@ static void print_debug(pc_t *op)
  */
 static int wich_job(pc_t *op, global_t *global)
 {
-    for (int i = 0 ; i < NB_COMMAND; i++) {
+    for (int i = 0; i < NB_COMMAND; i++) {
         if (op->opcode == global->commands[i])
             return i;
     }
@@ -75,17 +75,12 @@ int new_op(global_t *global, champion_t *tmp,
 
 
 /**
- * @todo  - Function to find with codingbyte type is (Just switch case etc)
- *        - add swap bigindian to littlebigindia (just reverse codingbyte.p1
- *          with p2 etc)
- *          askip je crois c'est aussi simple
+ * @todo  - Function to find witch codingbyte type is (Just switch case etc)
  *        - start the command with the good parameters
- * Voila en gros ca ça doit etre le début de la vidéo et cette manière la ca
- * devrait permettre
- * de coder plus simplement chaque fonction et d'avancer mieux dans
- * les bytes après
+ * Voila en gros ca ça doit etre le début de la vidéo et cette manière la c
+ * devrait permettre de coder plus simplement chaque fonction et d'avancer
+ * mieux dans les bytes après
  * A voir comment t'es à l'aise avec le code la est si tu le
  * omprend et si tu t'y retrouve dans
  * la video mais on pourra retourner vers nathan de toute facon
- *
 */

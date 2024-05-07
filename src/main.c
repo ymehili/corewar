@@ -83,7 +83,6 @@ void create_map(global_t *global)
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
-        printf("the start is %d and champion size = %s\n",debut ,tmp->name, tmp->code);
         for (int j = 0; j < tmp->size; j++)
             global->map[debut + j] = tmp->code[j];
         tmp->alive = 1;
@@ -116,9 +115,12 @@ int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *) = {
-        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti,
-        &fork_func, &lld, &lldi, &lfork, &aff
+        &live_command, &ld_command, &st_command, &add_command, &sub_command,
+        &and_command, &or_command, &xor_command, &zjmp_command, &ldi_command,
+        &sti_command, &fork_command, &lld_command, &lldi_command,
+        &lfork_command, &aff_command
     };
+
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);

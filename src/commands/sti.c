@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int sti(global_t *global, champion_t *champion, pc_t *op)
+int sti_command(global_t *global, champion_t *champion, pc_t *op)
 {
     get_params(op->codingbyte.p1);
     get_params(op->codingbyte.p2);

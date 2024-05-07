@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int lld(global_t *global, champion_t *champion, pc_t *op)
+int lld_command(global_t *global, champion_t *champion, pc_t *op)
 {
     return 0;
 }

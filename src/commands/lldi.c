@@ -7,7 +7,7 @@
 
 #include "../../include/src.h"
 
-int lldi(global_t *global, champion_t *champion, pc_t *op)
+int lldi_command(global_t *global, champion_t *champion, pc_t *op)
 {
     return 0;
 }
