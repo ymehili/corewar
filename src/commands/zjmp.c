@@ -9,5 +9,10 @@
 
 int zjmp_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    return 0;
+    int paramone = get_params(global, champion, op, op->codingbyte.p1);
+
+    if (champion->carry == 1)
+        ((char)champion->pc) + (paramone % IDX_MOD);
+    if (champion->carry > 1)
+    ((char)champion->pc) + (paramone % IDX_MOD);
 }
