@@ -69,13 +69,13 @@ void storebuffer(char *buffer, global_t *global, champion_t *tmp);
 int add_command(global_t *global, champion_t *champion, pc_t *op);
 int aff_command(global_t *global, champion_t *champion, pc_t *op);
 int and_command(global_t *global, champion_t *champion, pc_t *op);
-int fork_command(global_t *global, champion_t *champion, pc_t *op);
+int fork_command(global_t *global, champion_t *champion, pc_t *op); //todo
 int ld_command(global_t *global, champion_t *champion, pc_t *op);
-int ldi_command(global_t *global, champion_t *champion, pc_t *op);
-int lfork_command(global_t *global, champion_t *champion, pc_t *op);
+int ldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int lfork_command(global_t *global, champion_t *champion, pc_t *op); //todo
 int live_command(global_t *global, champion_t *champion, pc_t *op);
 int lld_command(global_t *global, champion_t *champion, pc_t *op);
-int lldi_command(global_t *global, champion_t *champion, pc_t *op);
+int lldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
 int or_command(global_t *global, champion_t *champion, pc_t *op);
 int st_command(global_t *global, champion_t *champion, pc_t *op);
 int sti_command(global_t *global, champion_t *champion, pc_t *op);
