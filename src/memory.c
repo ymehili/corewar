@@ -81,6 +81,6 @@ int new_op(global_t *global, champion_t *tmp,
  * devrait permettre de coder plus simplement chaque fonction et d'avancer
  * mieux dans les bytes après
  * A voir comment t'es à l'aise avec le code la est si tu le
- * omprend et si tu t'y retrouve dans
+ * comprend et si tu t'y retrouve dans
  * la video mais on pourra retourner vers nathan de toute facon
 */

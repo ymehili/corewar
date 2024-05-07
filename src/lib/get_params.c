@@ -7,20 +7,56 @@
 
 #include "../../include/src.h"
 
-int get_params(char param)
+int get_register(global_t *global, champion_t *champion, pc_t *op)
 {
+    int reg = global->map[champion->pc + 1];
+
+    champion->pc += 1;
+    return reg;
+}
+
+int get_direct(global_t *global, champion_t *champion, pc_t *op)
+{
+    short direct = global->map[champion->pc + 1] << 8 |
+        global->map[champion->pc + 2];
+
+    champion->pc += 2;
+    return (int)(swap_short_bytes(direct));
+}
+
+int get_indirect(global_t *global, champion_t *champion, pc_t *op)
+{
+    short indirect = global->map[champion->pc + 1] << 8 |
+        global->map[champion->pc + 2];
+
+    champion->pc += 2;
+    return (int)(swap_short_bytes(indirect));
+}
+
+int get_label(global_t *global, champion_t *champion, pc_t *op)
+{
+    int label = global->map[champion->pc + 1] << 8 |
+        global->map[champion->pc + 2];
+
+    champion->pc += 2;
+    return swap_int_bytes(label);
+}
+
+int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
+{
+    champion->pc++;
     switch (param) {
         case 0b00:
-            printf("REG\n");
+            return get_register(global, champion, op);
             break;
         case 0b01:
-            printf("DIR\n");
+            return get_direct(global, champion, op);
             break;
         case 0b10:
-            printf("IND\n");
+            return get_indirect(global, champion, op);
             break;
         case 0b11:
-            printf("LAB\n");
+            return get_label(global, champion, op);
             break;
         default:
             break;
