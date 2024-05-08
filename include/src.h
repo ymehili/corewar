@@ -83,9 +83,10 @@ int sub_command(global_t *global, champion_t *champion, pc_t *op);
 int xor_command(global_t *global, champion_t *champion, pc_t *op);
 int zjmp_command(global_t *global, champion_t *champion, pc_t *op);
 
-
-int get_register(global_t *global, champion_t *champion, int size);
-int get_direct(global_t *global, champion_t *champion, int size);
+int get_label(global_t *global, champion_t *champion, pc_t *op);
+int get_indirect(global_t *global, champion_t *champion, pc_t *op);
+int get_direct(global_t *global, champion_t *champion, pc_t *op);
+int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
 
 void create_map(global_t *global);
