@@ -9,6 +9,6 @@
 
 int aff_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    
+    champion->wait += 2;
     return 0;
 }

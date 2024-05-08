@@ -23,5 +23,6 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
 
     global->map[champion->pc + (paramtwo + paramthree) % IDX_MOD] =
         champion->reg[paramone - 1];
+    champion->wait += 25;
     return 0;
 }

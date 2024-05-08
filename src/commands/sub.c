@@ -24,5 +24,6 @@ int sub_command(global_t *global, champion_t *champion, pc_t *op)
     int paramthree = get_params(global, champion, op, op->codingbyte.p3);
 
     champion->reg[paramthree - 1] = paramone - paramtwo;
+    champion->wait += 10;
     return 0;
 }

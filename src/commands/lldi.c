@@ -9,5 +9,6 @@
 
 int lldi_command(global_t *global, champion_t *champion, pc_t *op)
 {
+    champion->wait += 50;
     return 0;
 }

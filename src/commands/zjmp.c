@@ -15,5 +15,6 @@ int zjmp_command(global_t *global, champion_t *champion, pc_t *op)
         champion->pc = (champion->pc + paramone) % IDX_MOD;
         return 0;
     }
+    champion->wait += 3;
     return 1;
 }
