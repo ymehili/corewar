@@ -18,7 +18,11 @@
  */
 int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    get_register(global, champion, op);
+    printf("je rentre dans le pays \n");
+    fflush(stdout);
+    champion->pc++;
+
+    get_direct(global, champion, op);
     champion->alive = 1;
     champion->last_live = global->cycle;
     champion->wait += 10;

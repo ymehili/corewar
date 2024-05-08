@@ -97,10 +97,19 @@ void create_map(global_t *global)
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-        if (tmp->wait == 0) {
-            new_op(global, tmp, all_command);
+    int cycle = 0;
+
+    while (1) {
+        for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+            printf("global ((%02x))\n", global->map[tmp->pc]);
+            printf("for champion %s, with is pc %d and his wait %d\n", tmp->name, tmp->pc, tmp->wait);
+            tmp->wait--;
+            if (tmp->wait <= 0) {
+                new_op(global, tmp, all_command);
+            }
         }
+        printf("%d\n", cycle);
+        cycle ++;
     }
 }
 

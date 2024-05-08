@@ -29,7 +29,7 @@ int get_indirect(global_t *global, champion_t *champion, pc_t *op)
     short indirect = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
-    champion->pc += 2;
+    champion->pc += 4;
     return (int)(swap_short_bytes(indirect));
 }
 
@@ -38,13 +38,12 @@ int get_label(global_t *global, champion_t *champion, pc_t *op)
     int label = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
-    champion->pc += 2;
+    champion->pc += 8;
     return swap_int_bytes(label);
 }
 
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
 {
-    champion->pc++;
     switch (param) {
         case 0b00:
             return get_register(global, champion, op);
