@@ -90,7 +90,7 @@ void create_map(global_t *global)
         tmp = tmp->next;
     }
     for (int i = 0; i < MEM_SIZE; i++)
-        printf("%02x ", global->map[i]);
+        printf("%02hhx ", global->map[i]);
     printf("\n");
 }
 

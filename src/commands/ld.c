@@ -22,5 +22,6 @@ int ld_command(global_t *global, champion_t *champion, pc_t *op)
 
     champion->reg[paramtwo - 1] = champion->pc + paramone % IDX_MOD;
     champion->wait += 5;
+    champion->pc += 2;
     return 0;
 }
