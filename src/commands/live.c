@@ -18,10 +18,8 @@
  */
 int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    printf("je rentre dans le pays \n");
-    fflush(stdout);
+    printf("%s is alive\n", champion->name);
     champion->pc++;
-
     get_direct(global, champion, op);
     champion->alive = 1;
     champion->last_live = global->cycle;

@@ -72,15 +72,3 @@ int new_op(global_t *global, champion_t *tmp,
     }
     return 0;
 }
-
-
-/**
- * @todo  - Function to find witch codingbyte type is (Just switch case etc)
- *        - start the command with the good parameters
- * Voila en gros ca ça doit etre le début de la vidéo et cette manière la c
- * devrait permettre de coder plus simplement chaque fonction et d'avancer
- * mieux dans les bytes après
- * A voir comment t'es à l'aise avec le code la est si tu le
- * comprend et si tu t'y retrouve dans
- * la video mais on pourra retourner vers nathan de toute facon
-*/

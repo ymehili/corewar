@@ -29,7 +29,7 @@ int get_indirect(global_t *global, champion_t *champion, pc_t *op)
     short indirect = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
-    champion->pc += 4;
+    champion->pc += 2;
     return (int)(swap_short_bytes(indirect));
 }
 
