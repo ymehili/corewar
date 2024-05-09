@@ -105,7 +105,6 @@ void launch_game(global_t *global,
             printf("for champion %s, with is pc %d and his wait %d\n", tmp->name, tmp->pc, tmp->wait);
             tmp->wait--;
             if (tmp->wait <= 0) {
-                tmp->pc =+ 7;
                 printf("in the pc there is: %02hhx\n", global->map[tmp->pc]);
                 new_op(global, tmp, all_command);
             }
