@@ -38,7 +38,7 @@ int get_label(global_t *global, champion_t *champion, pc_t *op)
     int label = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
-    champion->pc += 8;
+    champion->pc += 4;
     return swap_int_bytes(label);
 }
 
