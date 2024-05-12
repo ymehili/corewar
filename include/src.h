@@ -57,6 +57,7 @@ typedef struct global_s {
     int nb_champion;
     int cycle_to_die;
     int cycle;
+    int live_count;
     char *map;
     char *commands;
     struct pc_s pc;
@@ -94,5 +95,7 @@ void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 int new_op(global_t *global, champion_t *tmp,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
+
+void check_alive(global_t *global);
 
 #endif /* !SRC_H_ */

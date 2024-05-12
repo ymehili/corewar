@@ -66,6 +66,7 @@ static global_t *initglobal(void)
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;
+    global->live_count = 0;
     init_command(global);
     return global;
 }
@@ -91,25 +92,42 @@ void create_map(global_t *global)
     }
     for (int i = 0; i < MEM_SIZE; i++)
         printf("%02hhx ", global->map[i]);
-    printf("\n");
+    write(1, "\n", 1);
+}
+
+static void start_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
+{
+    static int cycle = 0;
+
+    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+        tmp->wait--;
+        if (tmp->wait <= 0) {
+            printf("for champion %s, with is pc %d and his wait %d\n",
+            tmp->name, tmp->pc, tmp->wait);
+            new_op(global, tmp, all_command);
+        }
+    }
+    printf("cycle : %d\n", cycle);
+    cycle ++;
 }
 
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    int cycle = 0;
+    int check_live = 0;
 
-    while (1) {
-        for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-            printf("global ((%02x))\n", global->map[tmp->pc]);
-            printf("for champion %s, with is pc %d and his wait %d\n", tmp->name, tmp->pc, tmp->wait);
-            tmp->wait--;
-            if (tmp->wait <= 0) {
-                new_op(global, tmp, all_command);
-            }
+    while (global->nb_champion != 1) {
+        check_live++;
+        if (check_live == global->cycle_to_die) {
+            check_live = 0;
+            check_alive(global);
         }
-        printf("%d\n", cycle);
-        cycle ++;
+        if (global->live_count >= NBR_LIVE) {
+            global->cycle_to_die -= CYCLE_DELTA;
+            global->live_count = 0;
+        }
+        start_game(global, all_command);
     }
 }
 
