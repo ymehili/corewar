@@ -19,7 +19,7 @@
 int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
     printf("%s is alive\n", champion->name);
-    champion->pc += 3;
+    champion->pc++;
     get_direct(global, champion, op);
     champion->alive++;
     champion->last_live = global->cycle;

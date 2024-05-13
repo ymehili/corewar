@@ -9,6 +9,7 @@
 
 int get_register(global_t *global, champion_t *champion, pc_t *op)
 {
+    printf("register\n");
     int reg = global->map[champion->pc + 1];
 
     champion->pc += 1;
@@ -17,15 +18,17 @@ int get_register(global_t *global, champion_t *champion, pc_t *op)
 
 int get_direct(global_t *global, champion_t *champion, pc_t *op)
 {
-    short direct = global->map[champion->pc + 1] << 8 |
+    printf("direct\n");
+    int direct = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
-    champion->pc += 2;
-    return (int)(swap_short_bytes(direct));
+    champion->pc += 4;
+    return (int)(swap_int_bytes(direct));
 }
 
 int get_indirect(global_t *global, champion_t *champion, pc_t *op)
 {
+    printf("indirect\n");
     short indirect = global->map[champion->pc + 1] << 8 |
         global->map[champion->pc + 2];
 
@@ -33,29 +36,20 @@ int get_indirect(global_t *global, champion_t *champion, pc_t *op)
     return (int)(swap_short_bytes(indirect));
 }
 
-int get_label(global_t *global, champion_t *champion, pc_t *op)
-{
-    int label = global->map[champion->pc + 1] << 8 |
-        global->map[champion->pc + 2];
-
-    champion->pc += 4;
-    return swap_int_bytes(label);
-}
-
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
 {
     switch (param) {
-        case 0b00:
+        case 0b01:
             return get_register(global, champion, op);
             break;
-        case 0b01:
-            return get_direct(global, champion, op);
-            break;
         case 0b10:
-            return get_indirect(global, champion, op);
+            if (op->opcode <= 9)
+                return get_direct(global, champion, op);
+            else
+                return get_indirect(global, champion, op);
             break;
         case 0b11:
-            return get_label(global, champion, op);
+            return get_indirect(global, champion, op);
             break;
         default:
             break;
