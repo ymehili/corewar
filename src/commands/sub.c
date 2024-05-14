@@ -19,17 +19,24 @@
  */
 int sub_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    int paramone = get_params(global, champion, op, op->codingbyte.p4);
-    int paramtwo = get_params(global, champion, op, op->codingbyte.p3);
-    int paramthree = get_params(global, champion, op, op->codingbyte.p2);
-    int result = paramone - paramtwo;
+    int paramone = 0;
+    int paramtwo = 0;
+    int paramthree = 0;
+    int val_paramone = 0;
+    int val_paramtwo = 0;
 
-    champion->reg[paramthree - 1] = result;
-    if (result == 0)
+    champion->pc += 1;
+    paramone = get_params(global, champion, op, op->codingbyte.p4);
+    paramtwo = get_params(global, champion, op, op->codingbyte.p3);
+    paramthree = get_params(global, champion, op, op->codingbyte.p2);
+    val_paramone = champion->reg[paramone - 1];
+    val_paramtwo = champion->reg[paramtwo - 1];
+    champion->reg[paramthree - 1] = val_paramone - val_paramtwo;
+    if (champion->reg[paramthree - 1] == 0)
         champion->carry = 1;
     else
         champion->carry = 0;
+    champion->pc += 1;
     champion->wait += 10;
-    champion->pc += 2;
     return 0;
 }

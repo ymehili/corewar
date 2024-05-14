@@ -16,8 +16,8 @@
  *                      it show if it's a register, direct, indirect etc
  * @param op_param      it's a array of size 2 who contains all the parameters
  *                      of the function
- *                      (j'ai pas très bien compris psq cq devrait print
- *                      01 00 07 00 01 01 les args de l'opcode)
+ *                      (j'ai pas très bien compris psq ca devrait print
+ *                      01 00 07 00 01 les args de l'opcode)
  *
  */
 static void print_debug(pc_t *op)
@@ -25,7 +25,7 @@ static void print_debug(pc_t *op)
     printf("opcode (%02x)\n", op->opcode);
     printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
     printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
-    printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
+    printf("codingbyte 3(%02b)\n", op->codingbyte.p3); 
     printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
 }
 
