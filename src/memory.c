@@ -7,27 +7,27 @@
 
 #include "../include/src.h"
 
-/**
- * @brief               print parameters to understand
- *
- * @param op_opcode     It's the opcode name
- * @param op_codingbyte 4 values to represente the codingbyte (4 ways)
- *                      00 : 01 : 10 : 11 (who is print 0 : 1 : 2 : 3)
- *                      it show if it's a register, direct, indirect etc
- * @param op_param      it's a array of size 2 who contains all the parameters
- *                      of the function
- *                      (j'ai pas très bien compris psq cq devrait print
- *                      01 00 07 00 01 01 les args de l'opcode)
- *
- */
-static void print_debug(pc_t *op)
-{
-    printf("opcode (%02x)\n", op->opcode);
-    printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
-    printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
-    printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
-    printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
-}
+// /**
+//  * @brief               print parameters to understand
+//  *
+//  * @param op_opcode     It's the opcode name
+//  * @param op_codingbyte 4 values to represente the codingbyte (4 ways)
+//  *                      00 : 01 : 10 : 11 (who is print 0 : 1 : 2 : 3)
+//  *                      it show if it's a register, direct, indirect etc
+//  * @param op_param      it's a array of size 2 who contains all the param
+//  *                      of the function
+//  *                      (j'ai pas très bien compris psq cq devrait print
+//  *                      01 00 07 00 01 01 les args de l'opcode)
+//  *
+//  */
+// static void print_debug(pc_t *op)
+// {
+//     printf("opcode (%02x)\n", op->opcode);
+//     printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
+//     printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
+//     printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
+//     printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
+// }
 
 /**
  * @brief           Find wich job we need to execute
@@ -64,7 +64,6 @@ int new_op(global_t *global, champion_t *tmp,
     int pointer_command = 0;
     pc_t *op = (pc_t *)&global->map[tmp->pc];
 
-    print_debug(op);
     pointer_command = wich_job(op, global);
     if (pointer_command != -1) {
         return (all_command[pointer_command](global, tmp, op));

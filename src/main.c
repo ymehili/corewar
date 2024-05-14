@@ -90,11 +90,7 @@ void create_map(global_t *global)
         tmp->pc = debut;
         tmp = tmp->next;
     }
-    for (int i = 0; i < MEM_SIZE; i++)
-        printf("%02hhx ", global->map[i]);
-    write(1, "\n", 1);
 }
-
 
 static void start_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
@@ -103,38 +99,20 @@ static void start_game(global_t *global,
 
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
         tmp->wait--;
-        if (tmp->wait <= 0) {
-            printf("for champion %s, with is pc %d is carry %d and his wait %d\n",
-            tmp->name, tmp->pc, tmp->carry, tmp->wait);
+        if (tmp->wait <= 0)
             new_op(global, tmp, all_command);
-        }
     }
-    // printf("cycle : %d\n", cycle);
     cycle ++;
 }
 
-// void launch_game(global_t *global,
-//     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
-// {
-//     int check_live = 0;
-
-//     // for(champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next)
-//         // printf("champion %s and carry %d\n", tmp->name, tmp->carry);
-//     while (global->nb_champion != 1) {
-//         check_live++;
-//         if (check_live == global->cycle_to_die && global->cycle_to_die > 0) {
-//             check_live = 0;
-//             printf("        check alive %d\n", global->cycle_to_die);
-//             check_alive(global);
-//         }
-//         printf("        count_live %d and cycle to die %d\n", global->live_count ,global->cycle_to_die);
-//         if (global->live_count >= NBR_LIVE) {
-//             global->cycle_to_die -= CYCLE_DELTA;
-//             global->live_count = 0;
-//         }
-//         start_game(global, all_command);
-//     }
-// }
+static void modify_cycle(global_t *global)
+{
+    if (global->cycle_to_die > CYCLE_DELTA)
+        global->cycle_to_die -= CYCLE_DELTA;
+    else
+        global->cycle_to_die = 1;
+    global->live_count = 0;
+}
 
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
@@ -142,26 +120,16 @@ void launch_game(global_t *global,
     int check_live = 0;
 
     while (global->nb_champion != 1) {
-        // printf("           check live %d and cycle to die %d\n", check_live, global->cycle_to_die);
         if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
             check_live = 0;
-            // printf("        check alive %d\n", global->cycle_to_die);
             check_alive(global);
         }
-        // printf("        count_live %d and cycle to die %d\n", global->live_count ,global->cycle_to_die);
-        if (global->live_count >= NBR_LIVE) {
-            if (global->cycle_to_die > CYCLE_DELTA) {
-                global->cycle_to_die -= CYCLE_DELTA;
-            } else {
-                global->cycle_to_die = 1; // ou un autre seuil minimal si nécessaire
-            }
-            global->live_count = 0;
-        }
+        if (global->live_count >= NBR_LIVE)
+                modify_cycle(global);
         check_live++;
         start_game(global, all_command);
     }
 }
-
 
 /**
  * @brief       The main function of the program.

@@ -19,15 +19,12 @@ int ld_command(global_t *global, champion_t *champion, pc_t *op)
 {
     int paramone = 0;
     int paramtwo = 0;
+
     champion->pc += 1;
     paramone = get_params(global, champion, op, op->codingbyte.p4);
-    printf("paramone: %d\n", paramone);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
-    printf("paramtwo: %d\n", paramtwo);
-
-    champion->reg[paramtwo - 1] = global->map[champion->pc + paramone % IDX_MOD];
-    printf("result %d\n", champion->pc + paramone % IDX_MOD);
-    printf("champions reg %d\n", champion->reg[paramtwo - 1]);
+    champion->reg[paramtwo - 1] =
+        global->map[champion->pc + (paramone % IDX_MOD)];
     if (champion->reg[paramtwo - 1] == 0)
         champion->carry = 1;
     else
