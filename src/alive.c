@@ -63,6 +63,7 @@ void check_alive(global_t *global)
 
     while (tmp != NULL) {
         next = tmp->next;
+        // printf("The champion %s is alive %d\n", tmp->name, tmp->alive);
         if (tmp->alive == 0) {
             if (global->nb_champion == 1) {
                 printf("The champion %s is the winner!\n", tmp->name);

@@ -53,17 +53,18 @@ int get_direct(global_t *global, champion_t *champion, pc_t *op)
                  (global->map[(champion->pc + 3) % MEM_SIZE] << 8) |
                  global->map[(champion->pc + 4) % MEM_SIZE];
     champion->pc = (champion->pc + 4) % MEM_SIZE;
-    return swap_int_bytes(direct);
+    return direct;
 }
 
-int get_indirect(global_t *global, champion_t *champion, pc_t *op)
+short get_indirect(global_t *global, champion_t *champion, pc_t *op)
 {
     printf("indirect\n");
     short indirect = (global->map[(champion->pc + 1) % MEM_SIZE] << 8) |
                      global->map[(champion->pc + 2) % MEM_SIZE];
     champion->pc = (champion->pc + 2) % MEM_SIZE;
-    return (int)swap_short_bytes(indirect);
+    return indirect;
 }
+
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
 {
     switch (param) {
@@ -74,10 +75,10 @@ int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
             if (op->opcode <= 0x09)
                 return get_direct(global, champion, op);
             else
-                return get_indirect(global, champion, op);
+                return (int)get_indirect(global, champion, op);
             break;
         case 0b11:
-            return get_indirect(global, champion, op);
+            return (int)get_indirect(global, champion, op);
             break;
         default:
             break;

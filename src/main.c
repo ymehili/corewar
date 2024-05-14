@@ -95,6 +95,7 @@ void create_map(global_t *global)
     write(1, "\n", 1);
 }
 
+
 static void start_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
@@ -112,26 +113,55 @@ static void start_game(global_t *global,
     cycle ++;
 }
 
+// void launch_game(global_t *global,
+//     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
+// {
+//     int check_live = 0;
+
+//     // for(champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next)
+//         // printf("champion %s and carry %d\n", tmp->name, tmp->carry);
+//     while (global->nb_champion != 1) {
+//         check_live++;
+//         if (check_live == global->cycle_to_die && global->cycle_to_die > 0) {
+//             check_live = 0;
+//             printf("        check alive %d\n", global->cycle_to_die);
+//             check_alive(global);
+//         }
+//         printf("        count_live %d and cycle to die %d\n", global->live_count ,global->cycle_to_die);
+//         if (global->live_count >= NBR_LIVE) {
+//             global->cycle_to_die -= CYCLE_DELTA;
+//             global->live_count = 0;
+//         }
+//         start_game(global, all_command);
+//     }
+// }
+
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
     int check_live = 0;
 
-    // for(champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next)
-        // printf("champion %s and carry %d\n", tmp->name, tmp->carry);
     while (global->nb_champion != 1) {
-        check_live++;
-        if (check_live == global->cycle_to_die) {
+        // printf("           check live %d and cycle to die %d\n", check_live, global->cycle_to_die);
+        if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
             check_live = 0;
+            // printf("        check alive %d\n", global->cycle_to_die);
             check_alive(global);
         }
+        // printf("        count_live %d and cycle to die %d\n", global->live_count ,global->cycle_to_die);
         if (global->live_count >= NBR_LIVE) {
-            global->cycle_to_die -= CYCLE_DELTA;
+            if (global->cycle_to_die > CYCLE_DELTA) {
+                global->cycle_to_die -= CYCLE_DELTA;
+            } else {
+                global->cycle_to_die = 1; // ou un autre seuil minimal si nécessaire
+            }
             global->live_count = 0;
         }
+        check_live++;
         start_game(global, all_command);
     }
 }
+
 
 /**
  * @brief       The main function of the program.

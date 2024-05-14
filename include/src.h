@@ -85,7 +85,7 @@ int xor_command(global_t *global, champion_t *champion, pc_t *op);
 int zjmp_command(global_t *global, champion_t *champion, pc_t *op);
 
 int get_label(global_t *global, champion_t *champion, pc_t *op);
-int get_indirect(global_t *global, champion_t *champion, pc_t *op);
+short get_indirect(global_t *global, champion_t *champion, pc_t *op);
 int get_direct(global_t *global, champion_t *champion, pc_t *op);
 int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
