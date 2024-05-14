@@ -103,12 +103,12 @@ static void start_game(global_t *global,
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
         tmp->wait--;
         if (tmp->wait <= 0) {
-            printf("for champion %s, with is pc %d and his wait %d\n",
-            tmp->name, tmp->pc, tmp->wait);
+            printf("for champion %s, with is pc %d is carry %d and his wait %d\n",
+            tmp->name, tmp->pc, tmp->carry, tmp->wait);
             new_op(global, tmp, all_command);
         }
     }
-    printf("cycle : %d\n", cycle);
+    // printf("cycle : %d\n", cycle);
     cycle ++;
 }
 
@@ -117,6 +117,8 @@ void launch_game(global_t *global,
 {
     int check_live = 0;
 
+    // for(champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next)
+        // printf("champion %s and carry %d\n", tmp->name, tmp->carry);
     while (global->nb_champion != 1) {
         check_live++;
         if (check_live == global->cycle_to_die) {

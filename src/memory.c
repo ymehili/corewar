@@ -40,7 +40,7 @@ static void print_debug(pc_t *op)
 static int wich_job(pc_t *op, global_t *global)
 {
     for (int i = 0; i < NB_COMMAND; i++) {
-        if (op->opcode == global->commands[i])
+        if (op->opcode && op->opcode == global->commands[i])
             return i;
     }
     return -1;

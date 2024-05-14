@@ -18,9 +18,11 @@
 int sti_command(global_t *global, champion_t *champion, pc_t *op)
 {
     int paramone = get_params(global, champion, op, op->codingbyte.p4);
+    printf("paramone: %d\n", paramone);
     int paramtwo = get_params(global, champion, op, op->codingbyte.p3);
+    printf("paramtwo: %d\n", paramtwo);
     int paramthree = get_params(global, champion, op, op->codingbyte.p2);
-
+    printf("paramthree: %d\n", paramthree);
     champion->pc += 2;
     global->map[champion->pc + paramtwo + paramthree % IDX_MOD] =
         champion->reg[paramone - 1];
