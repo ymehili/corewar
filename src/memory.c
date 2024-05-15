@@ -25,7 +25,7 @@ static void print_debug(pc_t *op)
     printf("opcode (%02x)\n", op->opcode);
     printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
     printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
-    printf("codingbyte 3(%02b)\n", op->codingbyte.p3); 
+    printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
     printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
 }
 

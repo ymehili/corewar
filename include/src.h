@@ -57,11 +57,14 @@ typedef struct global_s {
     int nb_champion;
     int cycle_to_die;
     int cycle;
+    int dump;
     int live_count;
     char *map;
     char *commands;
     struct pc_s pc;
 } global_t;
+
+void print_in_hexa(global_t *global);
 
 void *my_memset(void *s, int c, size_t n);
 int read_bfile(const char *filename, char **buffer, int *size);
@@ -90,12 +93,13 @@ int get_direct(global_t *global, champion_t *champion, pc_t *op);
 int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
 
+int process_args(int argc, char const *argv[], global_t *global);
 void create_map(global_t *global);
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 int new_op(global_t *global, champion_t *tmp,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 
-void check_alive(global_t *global);
+int check_alive(global_t *global);
 
 #endif /* !SRC_H_ */

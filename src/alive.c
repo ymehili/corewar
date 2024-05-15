@@ -7,34 +7,12 @@
 
 #include "../include/src.h"
 
-// static void remove_champion(global_t *global, champion_t *tmp)
-// {
-//     champion_t *prev = global->champions;
-
-//     if (prev == tmp) {
-//         global->champions = tmp->next;
-//         free(tmp);
-//         return;
-//     }
-//     for (; prev->next != tmp; prev = prev->next);
-//     prev->next = tmp->next;
-//     free(tmp);
-//     global->nb_champion--;
-// }
-
-// void check_alive(global_t *global)
-// {
-//     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-//         if (tmp->alive == 0) {
-//             printf("The champion %s is dead\n", tmp->name);
-//             remove_champion(global, tmp);
-//         } else {
-//             tmp->alive = 0;
-//         }
-//     }
-// }
-
-
+/**
+ * @brief           Remove the champion from the list.
+ *
+ * @param global    The global structure containing game data.
+ * @param tmp       The current champion to remove.
+ */
 static void remove_champion(global_t *global, champion_t *tmp)
 {
     champion_t *prev = NULL;
@@ -44,7 +22,6 @@ static void remove_champion(global_t *global, champion_t *tmp)
         prev = current;
         current = current->next;
     }
-
     if (current == tmp) {
         if (prev == NULL) {
             global->champions = tmp->next;
@@ -56,24 +33,44 @@ static void remove_champion(global_t *global, champion_t *tmp)
     }
 }
 
-void check_alive(global_t *global)
+/**
+ * @brief           Print the winner if they are only one champion
+ *                  else remove the champ
+ *
+ * @param global    The global structure containing game data.
+ * @param tmp       The current champion to check.
+ * @return          0
+ */
+static int dead_or_alive(global_t *global, champion_t *tmp)
+{
+    if (global->nb_champion == 1) {
+        printf("The champion %s is the winner!\n", tmp->name);
+        return 1;
+    }
+    printf("The champion %s is dead\n", tmp->name);
+    remove_champion(global, tmp);
+    return 0;
+}
+
+/**
+ * @brief           Checks if the champions are alive.
+ *
+ * @param global    The global structure containing game data.
+ * @return          0
+ */
+int check_alive(global_t *global)
 {
     champion_t *tmp = global->champions;
     champion_t *next = NULL;
+    int checker = 0;
 
-    while (tmp != NULL) {
+    while (tmp != NULL && checker == 0) {
         next = tmp->next;
-        // printf("The champion %s is alive %d\n", tmp->name, tmp->alive);
-        if (tmp->alive == 0) {
-            if (global->nb_champion == 1) {
-                printf("The champion %s is the winner!\n", tmp->name);
-                return;
-            }
-            printf("The champion %s is dead\n", tmp->name);
-            remove_champion(global, tmp);
-        } else {
+        if (tmp->alive == 0)
+            checker = dead_or_alive(global, tmp);
+        else
             tmp->alive = 0;
-        }
         tmp = next;
     }
+    return 0;
 }
