@@ -7,19 +7,29 @@
 
 #include "../../include/src.h"
 
-int sub(global_t *global, champion_t *champion)
+/**
+ * @brief           Subtracts the values of two parameters and stores the
+ *                  result in a register.
+ *
+ * @param global    The global structure containing the state of the program.
+ * @param champion  The champion structure representing the current champion.
+ * @param op        The pc_t structure representing the current program
+ *                  counter.
+ * @return          0 indicating successful execution of the sub_command.
+ */
+int sub_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    int reg1 = 0;
-    int reg2 = 0;
-    int reg3 = 0;
-    int pc = champion->pc;
-    int i = 0;
+    int paramone = get_params(global, champion, op, op->codingbyte.p4);
+    int paramtwo = get_params(global, champion, op, op->codingbyte.p3);
+    int paramthree = get_params(global, champion, op, op->codingbyte.p2);
+    int result = paramone - paramtwo;
 
-    reg1 = get_register(global, champion, 4);
-    reg2 = get_register(global, champion, 5);
-    reg3 = get_register(global, champion, 6);
-    champion->reg[reg3 - 1] = champion->reg[reg1 - 1] - champion->reg[reg2 - 1];
-    champion->carry = champion->reg[reg3 - 1] == 0 ? 1 : 0;
-    champion->pc = champion->pc + 7;
+    champion->reg[paramthree - 1] = result;
+    if (result == 0)
+        champion->carry = 1;
+    else
+        champion->carry = 0;
+    champion->wait += 10;
+    champion->pc += 2;
     return 0;
 }

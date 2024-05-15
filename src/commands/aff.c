@@ -7,17 +7,15 @@
 
 #include "../../include/src.h"
 
-int aff(global_t *global, champion_t *champion)
+int aff_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    int value = 0;
-    int reg = 0;
-    int pc = champion->pc;
-    int i = 0;
+    int paramone = get_params(global, champion, op, op->codingbyte.p4);
+    int ascii = 0;
 
-    value = get_direct(global, champion, 2);
-    reg = get_register(global, champion, 3);
-    champion->reg[reg - 1] = value;
-    champion->carry = value == 0 ? 1 : 0;
-    champion->pc = champion->pc + 3;
+    if (paramone >= 1 && paramone <= REG_NUMBER) {
+        ascii = champion->reg[paramone - 1] % 256;
+        write(1, &ascii, 1);
+    }
+    champion->pc += 2;
     return 0;
 }

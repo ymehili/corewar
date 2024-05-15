@@ -7,26 +7,25 @@
 
 #include "../include/src.h"
 
-static void init_command(champion_t *global)
+static void init_command(global_t *global)
 {
-    global->commands = malloc(sizeof(char *) * NB_COMMAND + 1);
-
-    global->commands[0] = my_strdup("01");
-    global->commands[1] = my_strdup("02");
-    global->commands[2] = my_strdup("03");
-    global->commands[3] = my_strdup("04");
-    global->commands[4] = my_strdup("05");
-    global->commands[5] = my_strdup("06");
-    global->commands[6] = my_strdup("07");
-    global->commands[7] = my_strdup("08");
-    global->commands[8] = my_strdup("09");
-    global->commands[9] = my_strdup("0a");
-    global->commands[10] = my_strdup("0b");
-    global->commands[11] = my_strdup("0c");
-    global->commands[12] = my_strdup("0d");
-    global->commands[13] = my_strdup("0e");
-    global->commands[14] = my_strdup("0f");
-    global->commands[15] = my_strdup("10");
+    global->commands = malloc(sizeof(char) * NB_COMMAND + 1);
+    global->commands[0] = 0x01;
+    global->commands[1] = 0x02;
+    global->commands[2] = 0x03;
+    global->commands[3] = 0x04;
+    global->commands[4] = 0x05;
+    global->commands[5] = 0x06;
+    global->commands[6] = 0x07;
+    global->commands[7] = 0x08;
+    global->commands[8] = 0x09;
+    global->commands[9] = 0x0a;
+    global->commands[10] = 0x0b;
+    global->commands[11] = 0x0c;
+    global->commands[12] = 0x0d;
+    global->commands[13] = 0x0e;
+    global->commands[14] = 0x0f;
+    global->commands[15] = 0x10;
 }
 
 /**
@@ -67,6 +66,7 @@ static global_t *initglobal(void)
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;
+    global->live_count = 0;
     init_command(global);
     return global;
 }
@@ -84,26 +84,50 @@ void create_map(global_t *global)
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
-        printf("the start is %d and champion size = %s\n",debut ,tmp->name);
         for (int j = 0; j < tmp->size; j++)
             global->map[debut + j] = tmp->code[j];
         tmp->alive = 1;
         tmp->pc = debut;
         tmp = tmp->next;
     }
-    for (int i = 0; i < MEM_SIZE; i++)
-        printf("%02x ", global->map[i]);
 }
 
-void launch_game(global_t *global)
+static void start_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-        if (tmp->wait == 0) {
-            for (int i = 0; op_tab[i].mnemonique; i++)
-                if (op_tab[i].code == global->map[tmp->pc]){
+    static int cycle = 0;
 
-                }
+    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+        tmp->wait--;
+        if (tmp->wait <= 0)
+            new_op(global, tmp, all_command);
+    }
+    cycle ++;
+}
+
+static void modify_cycle(global_t *global)
+{
+    if (global->cycle_to_die > CYCLE_DELTA)
+        global->cycle_to_die -= CYCLE_DELTA;
+    else
+        global->cycle_to_die = 1;
+    global->live_count = 0;
+}
+
+void launch_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
+{
+    int check_live = 0;
+
+    while (global->nb_champion != 1) {
+        if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
+            check_live = 0;
+            check_alive(global);
         }
+        if (global->live_count >= NBR_LIVE)
+                modify_cycle(global);
+        check_live++;
+        start_game(global, all_command);
     }
 }
 
@@ -117,14 +141,16 @@ void launch_game(global_t *global)
 int main(int argc, char const *argv[])
 {
     global_t *global = initglobal();
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *) = {
-        &live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &fork_func,
-        &lld, &lldi, &lfork, &aff
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *) = {
+        &live_command, &ld_command, &st_command, &add_command, &sub_command,
+        &and_command, &or_command, &xor_command, &zjmp_command, &ldi_command,
+        &sti_command, &fork_command, &lld_command, &lldi_command,
+        &lfork_command, &aff_command
     };
+
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);
-    launch_game(global);
+    launch_game(global, all_command);
     return 0;
 }
-

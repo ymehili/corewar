@@ -29,7 +29,7 @@ static int get_file_size(int fd)
  * @param buffer    A pointer to the buffer to store the read data.
  * @param size      A pointer to the size of the buffer.
  * @return          0 if the read operation is successful, 1 otherwise.
- */
+//  */
 int read_from_file(int fd, char **buffer, int *size)
 {
     int bytesread = read(fd, *buffer, *size);
@@ -60,7 +60,7 @@ int read_bfile(const char *filename, char **buffer, int *size)
     *size = get_file_size(fd);
     if (*size == -1)
         return 1;
-    *buffer = malloc(*size);
+    *buffer = malloc(sizeof(char *) * (*size + 1));
     if (read_from_file(fd, buffer, size)) {
         close(fd);
         return 1;

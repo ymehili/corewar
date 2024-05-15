@@ -21,7 +21,7 @@ static champion_t *initchampion(void)
     id++;
     champion->size = 0;
     champion->pc = 0;
-    champion->wait = 0;
+    champion->wait = 1;
     champion->alive = 0;
     champion->last_live = 0;
     champion->nb_live = 0;

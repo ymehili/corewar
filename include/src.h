@@ -7,6 +7,7 @@
 
 #ifndef SRC_H_
     #define SRC_H_
+    #define NB_COMMAND 17
     #include "lib.h"
     #include "op.h"
     #include <fcntl.h>
@@ -37,40 +38,64 @@ typedef struct champion_s {
     int reg[REG_NUMBER];
     int pc;
     int wait;
-    char **commands;
     struct champion_s *next;
 } champion_t;
 
+typedef struct coding_s {
+    unsigned char p1 : 2;
+    unsigned char p2 : 2;
+    unsigned char p3 : 2;
+    unsigned char p4 : 2;
+} coding_t;
+typedef struct pc_s {
+    unsigned char opcode;
+    struct coding_s codingbyte;
+    char params[1];
+} pc_t;
 typedef struct global_s {
-    struct champion_t *champions;
+    champion_t *champions;
     int nb_champion;
     int cycle_to_die;
     int cycle;
+    int live_count;
     char *map;
-    int *(*commands)(int, int, int, int);
+    char *commands;
+    struct pc_s pc;
 } global_t;
 
 void *my_memset(void *s, int c, size_t n);
 int read_bfile(const char *filename, char **buffer, int *size);
 void storebuffer(char *buffer, global_t *global, champion_t *tmp);
 
-int add(global_t *global, champion_t *champion);
-int aff(global_t *global, champion_t *champion);
-int and(global_t *global, champion_t *champion);
-int fork_func(global_t *global, champion_t *champion);
-int ld(global_t *global, champion_t *champion);
-int ldi(global_t *global, champion_t *champion);
-int lldi(global_t *global, champion_t *champion);
-int lfork(global_t *global, champion_t *champion);
-int live(global_t *global, champion_t *champion);
-int lld(global_t *global, champion_t *champion);
-int or(global_t *global, champion_t *champion);
-int st(global_t *global, champion_t *champion);
-int sti(global_t *global, champion_t *champion);
-int sub(global_t *global, champion_t *champion);
-int xor(global_t *global, champion_t *champion);
-int zjmp(global_t *global, champion_t *champion);
+int add_command(global_t *global, champion_t *champion, pc_t *op);
+int aff_command(global_t *global, champion_t *champion, pc_t *op);
+int and_command(global_t *global, champion_t *champion, pc_t *op);
+int fork_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int ld_command(global_t *global, champion_t *champion, pc_t *op);
+int ldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int lfork_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int live_command(global_t *global, champion_t *champion, pc_t *op);
+int lld_command(global_t *global, champion_t *champion, pc_t *op);
+int lldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int or_command(global_t *global, champion_t *champion, pc_t *op);
+int st_command(global_t *global, champion_t *champion, pc_t *op);
+int sti_command(global_t *global, champion_t *champion, pc_t *op);
+int sub_command(global_t *global, champion_t *champion, pc_t *op);
+int xor_command(global_t *global, champion_t *champion, pc_t *op);
+int zjmp_command(global_t *global, champion_t *champion, pc_t *op);
 
-int get_register(global_t *global, champion_t *champion, int size);
-int get_direct(global_t *global, champion_t *champion, int size);
+int get_label(global_t *global, champion_t *champion, pc_t *op);
+short get_indirect(global_t *global, champion_t *champion, pc_t *op);
+int get_direct(global_t *global, champion_t *champion, pc_t *op);
+int get_register(global_t *global, champion_t *champion, pc_t *op);
+int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
+
+void create_map(global_t *global);
+void launch_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
+int new_op(global_t *global, champion_t *tmp,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
+
+void check_alive(global_t *global);
+
 #endif /* !SRC_H_ */

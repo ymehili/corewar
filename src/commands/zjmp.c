@@ -7,18 +7,14 @@
 
 #include "../../include/src.h"
 
-int zjmp(global_t *global, champion_t *champion)
+int zjmp_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    int value = 0;
-    int reg = 0;
-    int pc = champion->pc;
-    int i = 0;
+    short paramone = 0;
 
-    value = get_direct(global, champion, 2);
     if (champion->carry == 1) {
-        champion->pc = champion->pc + (value % IDX_MOD);
-    } else {
-        champion->pc = champion->pc + 3;
+        paramone = get_indirect(global, champion, op);
+        champion->pc = (champion->pc + paramone % IDX_MOD) % MEM_SIZE;
     }
-    return 0;
+    champion->wait += 20;
+    return 1;
 }

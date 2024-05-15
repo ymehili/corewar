@@ -7,17 +7,22 @@
 
 #include "../../include/src.h"
 
-int live(global_t *global, champion_t *champion)
+/**
+ * @brief           Sets the champion's alive flag to 1 and updates the
+ *                  champion's last live cycle.
+ *
+ * @param global    The global state of the program.
+ * @param champion  The champion executing the command.
+ * @param op        The process control containing the register value.
+ * @return          0 indicating successful execution of the command.
+ */
+int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
-    int value = 0;
-    int reg = 0;
-    int pc = champion->pc;
-    int i = 0;
-
-    value = get_direct(global, champion, 4);
-    reg = get_register(global, champion, 5);
-    champion->reg[reg - 1] = value;
-    champion->carry = value == 0 ? 1 : 0;
-    champion->pc = champion->pc + 6;
+    champion->pc++;
+    get_direct(global, champion, op);
+    champion->alive++;
+    champion->last_live = global->cycle;
+    champion->wait += 10;
+    global->live_count++;
     return 0;
 }
