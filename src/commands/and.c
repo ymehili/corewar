@@ -17,7 +17,10 @@ int and_command(global_t *global, champion_t *champion, pc_t *op)
     paramone = get_params(global, champion, op, op->codingbyte.p4);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
-
+    paramone = is_a_register(champion, paramone, op->codingbyte.p4);
+    paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
+    paramone = is_a_indirect(global, champion, paramone, op->codingbyte.p4);
+    paramtwo = is_a_indirect(global, champion, paramtwo, op->codingbyte.p3);
     champion->reg[paramthree - 1] = paramone & paramtwo;
     if (champion->reg[paramthree - 1] == 0)
         champion->carry = 1;

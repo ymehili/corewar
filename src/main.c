@@ -80,7 +80,7 @@ void create_map(global_t *global)
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
         for (int j = 0; j < tmp->size; j++)
-            global->map[debut + j] = tmp->code[j];
+            global->map[debut + j]= tmp->code[j];
         tmp->alive = 1;
         tmp->pc = debut;
         tmp = tmp->next;
@@ -99,11 +99,15 @@ static void start_game(global_t *global,
         print_in_hexa(global);
     }
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-        tmp->wait--;
-        if (tmp->wait <= 0) {
-            printf("for champion %s, with is pc %d is carry %d and wait %d\n",
-            tmp->name, tmp->pc, tmp->carry, tmp->wait);
-            new_op(global, tmp, all_command);
+        int pos = 0;
+        for (champion_t *tmp2 = tmp; tmp2 != NULL; tmp2 = tmp2->clone_next){
+            tmp2->wait--;
+            if (tmp2->wait <= 0) {
+                printf("for champion %s pos %d, with is pc %d is carry %d and wait %d\n",
+                tmp2->name, pos,tmp2->pc, tmp2->carry, tmp2->wait);
+                new_op(global, tmp2, all_command);
+                }
+            pos++;
         }
     }
     cycle_dump++;

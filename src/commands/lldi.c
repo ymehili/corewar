@@ -12,8 +12,7 @@ int lldi_command(global_t *global, champion_t *champion, pc_t *op)
     int paramone = 0;
     int paramtwo = 0;
     int paramthree = 0;
-    int val_paramone = 0;
-    int val_paramtwo = 0;
+
     int address = 0;
     int ind_value = 0;
     int result = 0;
@@ -22,20 +21,15 @@ int lldi_command(global_t *global, champion_t *champion, pc_t *op)
     paramone = get_params(global, champion, op, op->codingbyte.p4);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
-    if (op->codingbyte.p4 == 0b01)
-        val_paramone = champion->reg[paramone - 1];
-    else
-        val_paramone = paramone;
-    if (op->codingbyte.p3 == 0b01)
-        val_paramtwo = champion->reg[paramtwo - 1];
-    else
-        val_paramtwo = paramtwo;
-    address = (champion->pc + val_paramone) % MEM_SIZE;
+    paramone = is_a_register(champion, paramone, op->codingbyte.p4);
+    paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
+
+    address = (champion->pc + paramone) % MEM_SIZE;
     if (address < 0)
         address += MEM_SIZE;
     for (int i = 0; i < IND_SIZE; ++i)
         ind_value = (ind_value << 8) | global->map[(address + i) % MEM_SIZE];
-    address = (champion->pc + (ind_value + val_paramtwo)) % MEM_SIZE;
+    address = (champion->pc + (ind_value + paramtwo)) % MEM_SIZE;
     if (address < 0)
         address += MEM_SIZE;
     for (int i = 0; i < REG_SIZE; ++i)

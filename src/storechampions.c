@@ -28,6 +28,8 @@ static champion_t *initchampion(void)
     champion->carry = 0;
     for (int i = 0; i < REG_NUMBER; i++)
         champion->reg[i] = 0;
+    champion->clone_next = NULL;
+    champion->clone_prev = NULL;
     champion->next = NULL;
     return champion;
 }

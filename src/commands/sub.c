@@ -31,7 +31,11 @@ int sub_command(global_t *global, champion_t *champion, pc_t *op)
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
     val_paramone = champion->reg[paramone - 1];
     val_paramtwo = champion->reg[paramtwo - 1];
-    champion->reg[paramthree - 1] = val_paramone - val_paramtwo;
+    if (op->codingbyte.p4 == 0b01)
+        champion->reg[paramthree - 1] = val_paramone - val_paramtwo;
+    else
+        global->map[champion->pc + paramthree % IDX_MOD] =
+            val_paramone - val_paramtwo;
     if (champion->reg[paramthree - 1] == 0)
         champion->carry = 1;
     else

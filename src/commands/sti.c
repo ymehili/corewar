@@ -28,10 +28,12 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
     int paramthree = get_params(global, champion, op, op->codingbyte.p2);
     printf("paramthree: %d\n", paramthree);
     printf("champion pc3 %d\n", champion->pc);
-    champion->pc += 1;
+    paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
+    paramthree = is_a_register(champion, paramthree, op->codingbyte.p2);
     printf("champion pc4 %d\n", champion->pc);
     global->map[champion->pc + paramtwo + paramthree % IDX_MOD] =
         champion->reg[paramone - 1];
     champion->wait += 25;
+    champion->pc += 1;
     return 0;
 }

@@ -38,6 +38,8 @@ typedef struct champion_s {
     int reg[REG_NUMBER];
     int pc;
     int wait;
+    struct champion_s *clone_next;
+    struct champion_s *clone_prev;
     struct champion_s *next;
 } champion_t;
 
@@ -92,6 +94,9 @@ short get_indirect(global_t *global, champion_t *champion, pc_t *op);
 int get_direct(global_t *global, champion_t *champion, pc_t *op);
 int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
+
+int is_a_register(champion_t *champion, int param, char paramtype);
+int is_a_indirect(global_t *global, champion_t *champion, int param, char paramtype);
 
 int process_args(int argc, char const *argv[], global_t *global);
 void create_map(global_t *global);
