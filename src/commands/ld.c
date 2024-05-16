@@ -40,5 +40,6 @@ int ld_command(global_t *global, champion_t *champion, pc_t *op)
         champion->carry = 0;
     champion->wait += 5;
     champion->pc += 1;
+    printf("        IN THE 02 aka ld POS after %02hhx pos %d\n", global->map[champion->pc], champion->pc);
     return 0;
 }

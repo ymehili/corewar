@@ -20,7 +20,7 @@ void print_in_hexa(global_t *global)
         hex[0] = "0123456789ABCDEF"[((unsigned char)global->map[i]) / 16];
         hex[1] = "0123456789ABCDEF"[((unsigned char)global->map[i]) % 16];
         mini_printf("%c%c ", hex[0], hex[1]);
-        if ((i + 1) % 64 == 0)
+        if ((i + 1) % 32 == 0)
             write(1, "\n", 1);
     }
     write(1, "\n", 1);
@@ -88,31 +88,94 @@ void create_map(global_t *global)
     print_in_hexa(global);
 }
 
+// static void start_game(global_t *global,
+//     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
+// {
+//     static int cycle = 0;
+//     static int cycle_dump = 0;
+
+//     if (global->dump == cycle_dump) {
+//         cycle_dump = 0;
+//         print_in_hexa(global);
+//     }
+//     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+//         int pos = 0;
+//         for (champion_t *tmp2 = tmp; tmp2 != NULL; tmp2 = tmp2->clone_next){
+//             tmp2->wait--;
+//             if (tmp2->wait <= 0) {
+//                 printf("for champion %s pos %d, with is pc %d is carry %d and wait %d\n",
+//                 tmp2->name, pos,tmp2->pc, tmp2->carry, tmp2->wait);
+//                 new_op(global, tmp2, all_command);
+//                 if (tmp2 != tmp)
+//                     tmp->alive += tmp2->alive;
+//                 }
+//             pos++;
+//         }
+//     }
+//     cycle_dump++;
+//     cycle ++;
+// }
+
 static void start_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
     static int cycle = 0;
     static int cycle_dump = 0;
 
+    champion_t *debug_prev = NULL;
     if (global->dump == cycle_dump) {
         cycle_dump = 0;
         print_in_hexa(global);
     }
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
         int pos = 0;
-        for (champion_t *tmp2 = tmp; tmp2 != NULL; tmp2 = tmp2->clone_next){
+
+        if (tmp->next != NULL && tmp->next->clone_next != NULL) {
+            printf("LE PC (%s) pos : %d DANS LA COMMANDE D'AVANT %d, ADRESSE PC: %p\n", tmp->name, pos, tmp->next->clone_next->pc, (void*)&(tmp->next->clone_next->pc));
+        }
+
+        for (champion_t *tmp2 = tmp; tmp2 != NULL; tmp2 = tmp2->clone_next) {
+            // if (tmp2->wait > 1000 || tmp2->wait < 0) {
+            //     printf("----------------------------------------:\n");
+            //     printf("    CYCLE: %d\n", cycle);
+            //     printf("    Champion details:\n");
+            //     printf("        Name: %s\n", tmp2->name);
+            //     printf("        Current PC: %d\n", tmp2->pc);
+            //     printf("        PC of the parent: %d\n", tmp->pc);
+            //     printf("        Current Wait: %d\n", tmp2->wait);
+            //     printf("        Kid (1): %d\n", pos);
+            //     printf("        Map Value at PC: %02hhx\n", global->map[tmp2->pc]);
+            //     printf("        Memory Location: %p\n", (void *)tmp2);
+            //     printf("        Memory Location of Parent: %p\n", (void *)tmp);
+            //     printf("        Memory Location of pc: %p\n", (void *)tmp2->pc);
+            //     printf("        Memory Location of pc of parent: %p\n", (void *)tmp->pc);
+            //     printf("----------------------------------------:\n");
+            //     printf("    Old Champion details:\n");
+            //     printf("        Name: %s\n", debug_prev->name);
+            //     printf("        Current PC: %d\n", debug_prev->pc);
+            //     printf("        Current Wait: %d\n", debug_prev->wait);
+            //     printf("        Map Value at PC: %02hhx\n", global->map[debug_prev->pc]);
+            //     printf("        Memory Location: %p\n", (void *)debug_prev);
+            //     printf("        Memory Location of pc: %p\n", (void *)debug_prev->pc);
+            //     printf("----------------------------------------:\n");
+            //     // exit(0);
+            // }
             tmp2->wait--;
-            if (tmp2->wait <= 0) {
-                printf("for champion %s pos %d, with is pc %d is carry %d and wait %d\n",
-                tmp2->name, pos,tmp2->pc, tmp2->carry, tmp2->wait);
+            if (tmp2->wait == 0) {
+                printf("For champion %s pos %d, with its pc %d is carry %d and wait %d\n",
+                    tmp2->name, pos, tmp2->pc, tmp2->carry, tmp2->wait);
                 new_op(global, tmp2, all_command);
-                }
+                if (tmp2 != tmp)
+                    tmp->alive += tmp2->alive;
+            }
             pos++;
         }
+        debug_prev = tmp;
     }
     cycle_dump++;
-    cycle ++;
+    cycle++;
 }
+
 
 static void change_cycle(global_t *global)
 {
