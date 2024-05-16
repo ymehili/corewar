@@ -7,6 +7,26 @@
 
 #include "../include/src.h"
 
+/**
+ * @brief           Prints the memory map in hexadecimal format.
+ *
+ * @param global    The global structure containing game data.
+ */
+int print_in_hexa(global_t *global)
+{
+    char hex[3];
+
+    for (int i = 0; i < MEM_SIZE; i++) {
+        hex[0] = "0123456789ABCDEF"[((unsigned char)global->map[i]) / 16];
+        hex[1] = "0123456789ABCDEF"[((unsigned char)global->map[i]) % 16];
+        mini_printf("%c%c ", hex[0], hex[1]);
+        if ((i + 1) % 32 == 0)
+            write(1, "\n", 1);
+    }
+    write(1, "\n", 1);
+    return 0;
+}
+
 static void init_command(global_t *global)
 {
     global->commands = malloc(sizeof(char) * NB_COMMAND + 1);
@@ -29,31 +49,6 @@ static void init_command(global_t *global)
 }
 
 /**
- * @brief           Process the command line arguments and store the contents
- *                  of the files in the global structure.
- *
- * @param argc      The number of command line arguments.
- * @param argv      An array of strings containing the command line arguments.
- * @param global    A pointer to the global structure.
- * @return          Returns 0 if the operation is successful, otherwise returns
- *                  1.
- */
-static int process_args(int argc, char const *argv[], global_t *global)
-{
-    char *buffer;
-    int size;
-    champion_t *tmp = NULL;
-
-    for (int i = 1; i < argc; i++) {
-        if (read_bfile(argv[i], &buffer, &size) != 0)
-            return 1;
-        storebuffer(buffer, global, tmp);
-        free(buffer);
-    }
-    return 0;
-}
-
-/**
  * @brief   Initializes and returns a pointer to a global_t structure.
  *
  * @return  A pointer to the initialized global_t structure.
@@ -67,6 +62,7 @@ static global_t *initglobal(void)
     global->cycle_to_die = CYCLE_TO_DIE;
     global->cycle = 0;
     global->live_count = 0;
+    global->dump = -1;
     init_command(global);
     return global;
 }
@@ -90,45 +86,7 @@ void create_map(global_t *global)
         tmp->pc = debut;
         tmp = tmp->next;
     }
-}
-
-static void start_game(global_t *global,
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
-{
-    static int cycle = 0;
-
-    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-        tmp->wait--;
-        if (tmp->wait <= 0)
-            new_op(global, tmp, all_command);
-    }
-    cycle ++;
-}
-
-static void modify_cycle(global_t *global)
-{
-    if (global->cycle_to_die > CYCLE_DELTA)
-        global->cycle_to_die -= CYCLE_DELTA;
-    else
-        global->cycle_to_die = 1;
-    global->live_count = 0;
-}
-
-void launch_game(global_t *global,
-    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
-{
-    int check_live = 0;
-
-    while (global->nb_champion != 1) {
-        if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
-            check_live = 0;
-            check_alive(global);
-        }
-        if (global->live_count >= NBR_LIVE)
-                modify_cycle(global);
-        check_live++;
-        start_game(global, all_command);
-    }
+    print_in_hexa(global);
 }
 
 /**

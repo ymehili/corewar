@@ -25,9 +25,13 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
     paramone = get_params(global, champion, op, op->codingbyte.p4);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
-    champion->pc += 1;
+    if (paramone < 1 || paramone > REG_NUMBER)
+        return -1;
+    paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
+    paramthree = is_a_register(champion, paramthree, op->codingbyte.p2);
     global->map[champion->pc + paramtwo + paramthree % IDX_MOD] =
         champion->reg[paramone - 1];
     champion->wait += 25;
+    champion->pc += 1;
     return 0;
 }

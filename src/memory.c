@@ -7,19 +7,19 @@
 
 #include "../include/src.h"
 
-// /**
-//  * @brief               print parameters to understand
-//  *
-//  * @param op_opcode     It's the opcode name
-//  * @param op_codingbyte 4 values to represente the codingbyte (4 ways)
-//  *                      00 : 01 : 10 : 11 (who is print 0 : 1 : 2 : 3)
-//  *                      it show if it's a register, direct, indirect etc
-//  * @param op_param      it's a array of size 2 who contains all the param
-//  *                      of the function
-//  *                      (j'ai pas très bien compris psq cq devrait print
-//  *                      01 00 07 00 01 01 les args de l'opcode)
-//  *
-//  */
+/**
+ * @brief               print parameters to understand
+ *
+ * @param op_opcode     It's the opcode name
+ * @param op_codingbyte 4 values to represente the codingbyte (4 ways)
+ *                      00 : 01 : 10 : 11 (who is print 0 : 1 : 2 : 3)
+ *                      it show if it's a register, direct, indirect etc
+ * @param op_param      it's a array of size 2 who contains all the parameters
+ *                      of the function
+ *                      (j'ai pas très bien compris psq ca devrait print
+ *                      01 00 07 00 01 les args de l'opcode)
+ *
+ */
 // static void print_debug(pc_t *op)
 // {
 //     printf("opcode (%02x)\n", op->opcode);

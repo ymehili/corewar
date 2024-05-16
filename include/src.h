@@ -26,19 +26,21 @@ typedef struct argument_s {
 } argument_t;
 
 typedef struct champion_s {
+    int pc;
+    int wait;
     int id;
+    int size;
+    char *code;
     char name[PROG_NAME_LENGTH + 1];
     char comment[COMMENT_LENGTH + 1];
-    char *code;
-    int size;
     int alive;
     int last_live;
     int nb_live;
     int carry;
-    int reg[REG_NUMBER];
-    int pc;
-    int wait;
+    struct champion_s *clone_next;
+    struct champion_s *clone_prev;
     struct champion_s *next;
+    int reg[REG_NUMBER];
 } champion_t;
 
 typedef struct coding_s {
@@ -53,14 +55,15 @@ typedef struct pc_s {
     char params[1];
 } pc_t;
 typedef struct global_s {
-    champion_t *champions;
     int nb_champion;
     int cycle_to_die;
     int cycle;
+    int dump;
     int live_count;
     char *map;
     char *commands;
     struct pc_s pc;
+    champion_t *champions;
 } global_t;
 
 void *my_memset(void *s, int c, size_t n);
@@ -70,13 +73,13 @@ void storebuffer(char *buffer, global_t *global, champion_t *tmp);
 int add_command(global_t *global, champion_t *champion, pc_t *op);
 int aff_command(global_t *global, champion_t *champion, pc_t *op);
 int and_command(global_t *global, champion_t *champion, pc_t *op);
-int fork_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int fork_command(global_t *global, champion_t *champion, pc_t *op);
 int ld_command(global_t *global, champion_t *champion, pc_t *op);
-int ldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
-int lfork_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int ldi_command(global_t *global, champion_t *champion, pc_t *op);
+int lfork_command(global_t *global, champion_t *champion, pc_t *op);
 int live_command(global_t *global, champion_t *champion, pc_t *op);
 int lld_command(global_t *global, champion_t *champion, pc_t *op);
-int lldi_command(global_t *global, champion_t *champion, pc_t *op); //todo
+int lldi_command(global_t *global, champion_t *champion, pc_t *op);
 int or_command(global_t *global, champion_t *champion, pc_t *op);
 int st_command(global_t *global, champion_t *champion, pc_t *op);
 int sti_command(global_t *global, champion_t *champion, pc_t *op);
@@ -90,12 +93,18 @@ int get_direct(global_t *global, champion_t *champion, pc_t *op);
 int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
 
+int is_a_register(champion_t *champion, int param, char paramtype);
+int is_a_indirect(global_t *global, champion_t *champion,
+    int param, char paramtype);
+
+int process_args(int argc, char const *argv[], global_t *global);
 void create_map(global_t *global);
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 int new_op(global_t *global, champion_t *tmp,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 
-void check_alive(global_t *global);
+int check_alive(global_t *global);
+int print_in_hexa(global_t *global);
 
 #endif /* !SRC_H_ */
