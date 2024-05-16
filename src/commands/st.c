@@ -17,7 +17,6 @@ int st_command(global_t *global, champion_t *champion, pc_t *op)
     paramone = get_params(global, champion, op, op->codingbyte.p4);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
     val_paramone = champion->reg[paramone - 1];
-
     if (op->codingbyte.p3 == 0b01)
         champion->reg[paramtwo - 1] = val_paramone;
     else

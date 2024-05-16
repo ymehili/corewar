@@ -38,7 +38,6 @@ static champion_t *init_clone_champion(champion_t *champion, int paramone)
     for (int i = 0; i < REG_NUMBER; i++)
         new_champion->reg[i] = champion->reg[i];
     place_champion(new_champion, champion);
-
     return new_champion;
 }
 
@@ -50,15 +49,7 @@ int fork_command(global_t *global, champion_t *champion, pc_t *op)
     new_champion->next = champion->next;
     champion->pc -= 2;
     new_champion->pc = champion->pc + paramone % IDX_MOD;
-
-    printf("paramone: %d\n", paramone);
-    printf("result calul: %d\n", champion->pc + paramone % IDX_MOD);
-    printf("new_champion pc: %d\n", new_champion->pc);
-    printf("pos du new_champion %d: %02hhx\n", new_champion->pc, global->map[new_champion->pc]);
     champion->pc += 3;
-    printf("pos du champion, %d: %02hhx\n", champion->pc, global->map[champion->pc]);
-
     champion->wait += 800;
-
     return 0;
 }
