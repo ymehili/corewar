@@ -24,7 +24,7 @@ int print_in_hexa(global_t *global)
             write(1, "\n", 1);
     }
     write(1, "\n", 1);
-    return 0;
+    return -2;
 }
 
 static void init_command(global_t *global)

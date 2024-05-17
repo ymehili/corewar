@@ -64,11 +64,8 @@ int check_alive(global_t *global)
         next = tmp->next;
         if (tmp->alive == 0)
             end = remove_champion(global, tmp);
-        else {
+        else
             tmp->alive = 0;
-            mini_printf("The champion  %d (%s) is alive\n",
-                tmp->id, tmp->name);
-        }
         if (end == 1)
             return 0;
         tmp = next;

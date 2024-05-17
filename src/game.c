@@ -17,7 +17,7 @@ static void new_command(global_t *global, champion_t *tmp, champion_t *tmp2,
     }
 }
 
-static void start_game(global_t *global,
+static int start_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
     static int cycle = 0;
@@ -30,9 +30,12 @@ static void start_game(global_t *global,
             tmp2->wait--;
             new_command(global, tmp, tmp2, all_command);
         }
+        if (tmp->alive == 1)
+            printf("The player %d (%s) his alive.\n", tmp->id, tmp->name);
     }
     cycle_dump++;
     cycle++;
+    return 0;
 }
 
 static void change_cycle(global_t *global)
@@ -67,6 +70,7 @@ void launch_game(global_t *global,
         if (global->live_count >= NBR_LIVE)
             change_cycle(global);
         check_live++;
-        start_game(global, all_command);
+        if (start_game(global, all_command) == -2)
+            return;
     }
 }
