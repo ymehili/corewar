@@ -8,21 +8,6 @@
 #include "../include/src.h"
 
 /**
- * @brief       Calculates the size of a file given its file descriptor.
- *
- * @param fd    The file descriptor of the file.
- * @return      The size of the file in bytes, or -1 if an error occurred.
- */
-static int get_file_size(int fd)
-{
-    struct stat st;
-
-    if (fstat(fd, &st) == -1)
-        return -1;
-    return st.st_size;
-}
-
-/**
  * @brief           Reads data from a file descriptor into a buffer.
  *
  * @param fd        The file descriptor to read from.
@@ -57,10 +42,10 @@ int read_bfile(const char *filename, char **buffer, int *size)
 
     if (fd == -1)
         return 1;
-    *size = get_file_size(fd);
+    *size = 32000;
     if (*size == -1)
         return 1;
-    *buffer = malloc(sizeof(char *) * (*size + 1));
+    *buffer = my_malloc(sizeof(char *) * (*size + 1));
     if (read_from_file(fd, buffer, size)) {
         close(fd);
         return 1;
