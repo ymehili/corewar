@@ -43,7 +43,7 @@ int sub_command(global_t *global, champion_t *champion, pc_t *op)
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
     if (sub2_command(&paramone, &paramtwo, champion, op) == -1)
         return -1;
-    if (op->codingbyte.p4 == 0b01) {
+    if (op->codingbyte.p2 == 0b01) {
         if (paramthree < 1 || paramthree > REG_NUMBER)
             return -1;
         champion->reg[paramthree - 1] = paramone - paramtwo;

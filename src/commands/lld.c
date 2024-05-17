@@ -13,7 +13,7 @@ static int lld2_command(champion_t *champion, int paramtwo)
         champion->carry = 1;
     else
         champion->carry = 0;
-    champion->wait += 5;
+    champion->wait += 10;
     champion->pc += 1;
     return 0;
 }
@@ -38,9 +38,9 @@ int lld_command(global_t *global, champion_t *champion, pc_t *op)
     if (paramtwo < 1 || paramtwo > REG_NUMBER)
         return 0;
     if (op->codingbyte.p4 == 0b10)
-        result = paramone;
+        result = paramone % MEM_SIZE;
     else if (op->codingbyte.p4 == 0b11)
-        result = global->map[champion->pc + paramone];
+        result = global->map[(champion->pc + paramone) % MEM_SIZE];
     champion->reg[paramtwo - 1] = result;
     return lld2_command(champion, paramtwo);
 }

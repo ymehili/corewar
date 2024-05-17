@@ -21,7 +21,6 @@ static void lplace_champion(champion_t *new_champion, champion_t *champion)
 
 static champion_t *linit_clone_champion(champion_t *champion, int paramone)
 {
-    static int id = 0;
     champion_t *new_champion = malloc(sizeof(champion_t));
 
     new_champion->pc = 0;
@@ -48,7 +47,7 @@ int lfork_command(global_t *global, champion_t *champion, pc_t *op)
 
     new_champion->next = champion->next;
     champion->pc -= 2;
-    new_champion->pc = champion->pc + paramone;
+    new_champion->pc = (champion->pc + paramone) % MEM_SIZE;
     champion->pc += 3;
     champion->wait += 1000;
     return 0;

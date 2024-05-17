@@ -38,9 +38,9 @@ int ld_command(global_t *global, champion_t *champion, pc_t *op)
     if (paramtwo < 1 || paramtwo > REG_NUMBER)
         return 0;
     if (op->codingbyte.p4 == 0b10)
-        result = paramone;
+        result = paramone % MEM_SIZE;
     else if (op->codingbyte.p4 == 0b11)
-        result = global->map[champion->pc + paramone % IDX_MOD];
+        result = global->map[(champion->pc + paramone % IDX_MOD) % MEM_SIZE];
     champion->reg[paramtwo - 1] = result;
     return ld2_command(champion, paramtwo);
 }
