@@ -20,14 +20,14 @@
  *                      01 00 07 00 01 les args de l'opcode)
  *
  */
-static void print_debug(pc_t *op)
-{
-    printf("opcode (%02x)\n", op->opcode);
-    printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
-    printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
-    printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
-    printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
-}
+// static void print_debug(pc_t *op)
+// {
+//     printf("opcode (%02x)\n", op->opcode);
+//     printf("codingbyte 1(%02b)\n", op->codingbyte.p1);
+//     printf("codingbyte 2(%02b)\n", op->codingbyte.p2);
+//     printf("codingbyte 3(%02b)\n", op->codingbyte.p3);
+//     printf("codingbyte 4(%02b)\n", op->codingbyte.p4);
+// }
 
 /**
  * @brief           Find wich job we need to execute
@@ -64,7 +64,6 @@ int new_op(global_t *global, champion_t *tmp,
     int pointer_command = 0;
     pc_t *op = (pc_t *)&global->map[tmp->pc];
 
-    // print_debug(op);
     pointer_command = wich_job(op, global);
     if (pointer_command != -1) {
         return (all_command[pointer_command](global, tmp, op));

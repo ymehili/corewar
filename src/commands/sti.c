@@ -29,8 +29,8 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
         return -1;
     paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
     paramthree = is_a_register(champion, paramthree, op->codingbyte.p2);
-    global->map[(champion->pc + (paramtwo + paramthree) % IDX_MOD) % MEM_SIZE] =
-        champion->reg[paramone - 1];
+    global->map[(champion->pc + (paramtwo + paramthree) % IDX_MOD) %
+        MEM_SIZE] = champion->reg[paramone - 1];
     champion->wait += 25;
     champion->pc += 1;
     return 0;
