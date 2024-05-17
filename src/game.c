@@ -31,7 +31,7 @@ static int start_game(global_t *global,
             new_command(global, tmp, tmp2, all_command);
         }
         if (tmp->alive == 1)
-            printf("The player %d (%s) his alive.\n", tmp->id, tmp->name);
+            mini_printf("The player %d (%s) his alive.\n", tmp->id, tmp->name);
     }
     cycle_dump++;
     cycle++;
