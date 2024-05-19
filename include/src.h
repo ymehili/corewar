@@ -37,6 +37,7 @@ typedef struct champion_s {
     int last_live;
     int nb_live;
     int carry;
+    int to_exec;
     struct champion_s *clone_next;
     struct champion_s *clone_prev;
     struct champion_s *next;

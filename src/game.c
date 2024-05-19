@@ -7,11 +7,31 @@
 
 #include "../include/src.h"
 
+static int getwait(global_t *global, champion_t *tmp)
+{
+    int wait = 0;
+
+    if (tmp->to_exec == 0)
+        return 0;
+    for (int i = 0; i < NB_COMMAND; i++) {
+        if (global->commands[i] == tmp->code[0]) {
+            wait = op_tab[i].nbr_cycles;
+            break;
+        }
+    }
+    return wait;
+}
+
 static void new_command(global_t *global, champion_t *tmp, champion_t *tmp2,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    if (tmp2->wait == 0) {
+    if (tmp2->to_exec == 0) {
+        tmp2->wait = getwait(global, tmp2);
+        tmp2->to_exec = 1;
+    }
+    if (tmp2->wait == 0 && tmp2->to_exec == 1) {
         new_op(global, tmp2, all_command);
+        tmp2->to_exec = 0;
         if (tmp2 != tmp)
             tmp->alive += tmp2->alive;
     }
