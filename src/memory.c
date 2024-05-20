@@ -66,6 +66,7 @@ int new_op(global_t *global, champion_t *tmp,
 
     pointer_command = wich_job(op, global);
     if (pointer_command != -1) {
+        tmp->to_exec = 0;
         return (all_command[pointer_command](global, tmp, op));
     }
     return 0;

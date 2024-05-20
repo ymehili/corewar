@@ -65,7 +65,7 @@ void create_map(global_t *global)
     int debut = 0;
     champion_t *tmp = global->champions;
 
-    global->colors_map = malloc(sizeof(int) * MEM_SIZE);
+    global->colors_map = my_malloc(sizeof(int) * MEM_SIZE);
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;

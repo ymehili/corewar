@@ -34,6 +34,7 @@ static champion_t *init_clone_champion(champion_t *champion, int paramone)
     new_champion->last_live = 0;
     new_champion->nb_live = 0;
     new_champion->carry = 0;
+    new_champion->to_exec = 0;
     for (int i = 0; i < REG_NUMBER; i++)
         new_champion->reg[i] = champion->reg[i];
     place_champion(new_champion, champion);
@@ -50,5 +51,6 @@ int fork_command(global_t *global, champion_t *champion, pc_t *op)
     new_champion->pc = (champion->pc + paramone % IDX_MOD) % MEM_SIZE;
     champion->pc += 3;
     // champion->wait += 800;
+    champion->to_exec = 0;
     return 0;
 }

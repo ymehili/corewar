@@ -10,11 +10,8 @@
 static int getwait(global_t *global, champion_t *tmp)
 {
     int wait = 0;
-
-    // if (tmp->to_exec == 0)
-    //     return 0;
     for (int i = 0; i < NB_COMMAND; i++) {
-        if (global->commands[i] == tmp->code[0]) {
+        if (global->commands[i] == global->map[tmp->pc]) {
             wait = op_tab[i].nbr_cycles;
             break;
         }
@@ -25,12 +22,11 @@ static int getwait(global_t *global, champion_t *tmp)
 static void new_command(global_t *global, champion_t *tmp, champion_t *tmp2,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
+    printf("the champion (%d), exec %d\n", tmp2->id,tmp2->to_exec);
     if (tmp2->to_exec == 0) {
         tmp2->wait = getwait(global, tmp2);
         tmp2->to_exec = 1;
     }
-    printf("tmp2->wait = %d\n", tmp2->wait);
-    printf("tmp2->to_exec = %d\n", tmp2->to_exec);
     if (tmp2->wait == 0 && tmp2->to_exec == 1) {
         new_op(global, tmp2, all_command);
         tmp2->to_exec = 0;
@@ -100,7 +96,7 @@ void launch_game(global_t *global,
         check_live++;
         if (start_game(global, all_command) == -2)
             return;
-        // sleep(1);
+        usleep(10000);
     }
     sfRenderWindow_destroy(global->window);
 }
