@@ -14,7 +14,7 @@ static int sub3_command(champion_t *champion, int paramthree)
     else
         champion->carry = 0;
     champion->pc += 1;
-    champion->wait += 10;
+    // champion->wait += 10;
     return 0;
 }
 

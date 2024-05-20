@@ -49,6 +49,6 @@ int lfork_command(global_t *global, champion_t *champion, pc_t *op)
     champion->pc -= 2;
     new_champion->pc = (champion->pc + paramone) % MEM_SIZE;
     champion->pc += 3;
-    champion->wait += 1000;
+    // champion->wait += 1000;
     return 0;
 }

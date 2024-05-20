@@ -12,20 +12,6 @@
  *
  * @param global    The global structure containing game data.
  */
-int print_in_hexa(global_t *global)
-{
-    char hex[3];
-
-    for (int i = 0; i < MEM_SIZE; i++) {
-        hex[0] = "0123456789ABCDEF"[((unsigned char)global->map[i]) / 16];
-        hex[1] = "0123456789ABCDEF"[((unsigned char)global->map[i]) % 16];
-        mini_printf("%c%c ", hex[0], hex[1]);
-        if ((i + 1) % 32 == 0)
-            write(1, "\n", 1);
-    }
-    write(1, "\n", 1);
-    return -2;
-}
 
 static void init_command(global_t *global)
 {
@@ -56,6 +42,7 @@ static void init_command(global_t *global)
 static global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
+    sfVideoMode mode = {1920, 1080, 32};
 
     global->champions = NULL;
     global->nb_champion = 0;
@@ -64,6 +51,7 @@ static global_t *initglobal(void)
     global->live_count = 0;
     global->dump = -1;
     init_command(global);
+    global->window = sfRenderWindow_create(mode, "Corewar", sfResize | sfClose, NULL);
     return global;
 }
 
@@ -77,16 +65,19 @@ void create_map(global_t *global)
     int debut = 0;
     champion_t *tmp = global->champions;
 
+    global->colors_map = malloc(sizeof(int) * MEM_SIZE);
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
         debut = (MEM_SIZE / global->nb_champion) * i;
-        for (int j = 0; j < tmp->size; j++)
+        for (int j = 0; j < tmp->size; j++) {
             global->map[debut + j] = tmp->code[j];
+            global->colors_map[debut + j] = i + 1;
+        }
         tmp->alive = 1;
         tmp->pc = debut;
         tmp = tmp->next;
     }
-    print_in_hexa(global);
+    // print_in_hexa(global);
 }
 
 /**

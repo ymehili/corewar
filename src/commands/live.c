@@ -22,7 +22,7 @@ int live_command(global_t *global, champion_t *champion, pc_t *op)
     champion->pc++;
     champion->alive++;
     champion->last_live = global->cycle;
-    champion->wait += 10;
+    // champion->wait += 10;
     global->live_count++;
     return 0;
 }

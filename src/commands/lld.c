@@ -13,7 +13,7 @@ static int lld2_command(champion_t *champion, int paramtwo)
         champion->carry = 1;
     else
         champion->carry = 0;
-    champion->wait += 10;
+    // champion->wait += 10;
     champion->pc += 1;
     return 0;
 }

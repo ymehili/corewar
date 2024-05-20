@@ -13,7 +13,7 @@ static int xor3_command(champion_t *champion, int paramthree)
     else
         champion->carry = 0;
     champion->pc += 1;
-    champion->wait += 6;
+    // champion->wait += 6;
     return 0;
 }
 

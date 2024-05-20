@@ -11,8 +11,8 @@ static int getwait(global_t *global, champion_t *tmp)
 {
     int wait = 0;
 
-    if (tmp->to_exec == 0)
-        return 0;
+    // if (tmp->to_exec == 0)
+    //     return 0;
     for (int i = 0; i < NB_COMMAND; i++) {
         if (global->commands[i] == tmp->code[0]) {
             wait = op_tab[i].nbr_cycles;
@@ -29,6 +29,8 @@ static void new_command(global_t *global, champion_t *tmp, champion_t *tmp2,
         tmp2->wait = getwait(global, tmp2);
         tmp2->to_exec = 1;
     }
+    printf("tmp2->wait = %d\n", tmp2->wait);
+    printf("tmp2->to_exec = %d\n", tmp2->to_exec);
     if (tmp2->wait == 0 && tmp2->to_exec == 1) {
         new_op(global, tmp2, all_command);
         tmp2->to_exec = 0;
@@ -40,7 +42,6 @@ static void new_command(global_t *global, champion_t *tmp, champion_t *tmp2,
 static int start_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    static int cycle = 0;
     static int cycle_dump = 0;
 
     if (global->dump == cycle_dump)
@@ -54,7 +55,7 @@ static int start_game(global_t *global,
             mini_printf("The player %d (%s) his alive.\n", tmp->id, tmp->name);
     }
     cycle_dump++;
-    cycle++;
+    global->cycle++;
     return 0;
 }
 
@@ -79,18 +80,27 @@ void launch_game(global_t *global,
 {
     int check_live = 0;
     int end = 0;
-
-    while (global->nb_champion != 1) {
+    sfEvent event;
+    
+    while (sfRenderWindow_isOpen(global->window) && global->nb_champion != 1) {
+        while (sfRenderWindow_pollEvent(global->window, &event)) {
+            if (event.type == sfEvtClosed || sfKeyboard_isKeyPressed(sfKeyEscape))
+                sfRenderWindow_close(global->window);
+        }
+        display_info(global);
         if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
             check_live = 0;
             end = check_alive(global);
         }
         if (end == 1)
+
             return;
         if (global->live_count >= NBR_LIVE)
             change_cycle(global);
         check_live++;
         if (start_game(global, all_command) == -2)
             return;
+        // sleep(1);
     }
+    sfRenderWindow_destroy(global->window);
 }

@@ -25,7 +25,7 @@ int st_command(global_t *global, champion_t *champion, pc_t *op)
     } else
         global->map[(champion->pc + paramtwo % IDX_MOD) % MEM_SIZE] =
             paramone;
-    champion->wait += 5;
+    // champion->wait += 5;
     champion->pc += 1;
     return 0;
 }

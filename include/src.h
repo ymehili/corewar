@@ -14,16 +14,17 @@
     #include <unistd.h>
     #include <stdlib.h>
     #include <sys/stat.h>
+    #include <ncurses.h>
+    #include <SFML/Graphics.h>
+    #include <SFML/Window.h>
+    #include <SFML/System.h>
+    #include <SFML/Audio.h>
+    #include <SFML/Graphics/Export.h>
+    #include <SFML/System/Time.h>
+    #include <SFML/System/Export.h>
 
 typedef struct global_s global_t;
 typedef struct champion_s champion_t;
-
-typedef struct argument_s {
-    int one;
-    int two;
-    int three;
-    int four;
-} argument_t;
 
 typedef struct champion_s {
     int pc;
@@ -61,9 +62,10 @@ typedef struct global_s {
     int cycle;
     int dump;
     int live_count;
+    int *colors_map;
     char *map;
     char *commands;
-    struct pc_s pc;
+    sfRenderWindow *window;
     champion_t *champions;
 } global_t;
 
@@ -107,5 +109,7 @@ int new_op(global_t *global, champion_t *tmp,
 
 int check_alive(global_t *global);
 int print_in_hexa(global_t *global);
+
+void display_info(global_t *global);
 
 #endif /* !SRC_H_ */
