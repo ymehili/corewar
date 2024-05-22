@@ -28,7 +28,6 @@ int st_command(global_t *global, champion_t *champion, pc_t *op)
     if (paramone < 1 || paramone > REG_NUMBER)
         return -1;
     paramone = is_a_register(champion, paramone, op->codingbyte.p4);
-
     if (op->codingbyte.p3 == 0b01) {
         if (paramtwo < 1 || paramtwo > REG_NUMBER)
             return -1;
@@ -37,9 +36,8 @@ int st_command(global_t *global, champion_t *champion, pc_t *op)
         address = (pc_copy + paramtwo % IDX_MOD) % MEM_SIZE;
         write_in_4_bytes(global, address, paramone);
         for (int i = 0; i < 4; i++)
-            global->colors_map[(address + i) % MEM_SIZE] = champion->id + 1;
+            global->colors_map[(address + i) % MEM_SIZE] = champion->id;
     }
     champion->pc += 1;
     return 0;
 }
-

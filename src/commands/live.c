@@ -19,6 +19,7 @@
 int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
     int paramone = get_direct(global, champion, op);
+
     champion->pc++;
     champion->alive++;
     champion->nb_live++;

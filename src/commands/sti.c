@@ -35,7 +35,7 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
     address = (pc_copy + (paramtwo + paramthree) % IDX_MOD) % MEM_SIZE;
     write_in_4_bytes(global, address, champion->reg[paramone - 1]);
     for (int i = 0; i < 4; i++)
-        global->colors_map[(address + i) % MEM_SIZE] = champion->id + 1;
+        global->colors_map[(address + i) % MEM_SIZE] = champion->id;
     champion->pc += 1;
     return 0;
 }

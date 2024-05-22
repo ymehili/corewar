@@ -13,6 +13,7 @@
     #include <fcntl.h>
     #include <unistd.h>
     #include <stdlib.h>
+    #include <stdint.h>
     #include <sys/stat.h>
     #include <ncurses.h>
     #include <SFML/Graphics.h>
@@ -105,6 +106,9 @@ int is_a_indirect(global_t *global, int pc,
     int param, char paramtype);
 
 void write_in_4_bytes(global_t *global, int address, int value);
+int read_4_bytes(global_t *global, int address);
+int16_t read_2_bytes(global_t *global, int address);
+
 
 int process_args(int argc, char const *argv[], global_t *global);
 void create_map(global_t *global);

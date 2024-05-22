@@ -27,6 +27,19 @@ int find_first_free_id(global_t *global)
  *
  * @return  A pointer to the newly initialized champion.
  */
+static void init_champ2(global_t *global, champion_t *champion)
+{
+    champion->last_live = 0;
+    champion->nb_live = 0;
+    champion->carry = 0;
+    for (int i = 0; i < REG_NUMBER; i++)
+        champion->reg[i] = 0;
+    champion->reg[0] = champion->id;
+    champion->clone_next = NULL;
+    champion->clone_prev = NULL;
+    champion->next = NULL;
+}
+
 static champion_t *initchampion(global_t *global)
 {
     static int id = 1;
@@ -46,15 +59,7 @@ static champion_t *initchampion(global_t *global)
     champion->pc = 0;
     champion->wait = 1;
     champion->alive = 0;
-    champion->last_live = 0;
-    champion->nb_live = 0;
-    champion->carry = 0;
-    for (int i = 0; i < REG_NUMBER; i++)
-        champion->reg[i] = 0;
-    champion->reg[0] = champion->id;
-    champion->clone_next = NULL;
-    champion->clone_prev = NULL;
-    champion->next = NULL;
+    init_champ2(global, champion);
     return champion;
 }
 
