@@ -7,6 +7,21 @@
 
 #include "../include/src.h"
 
+void find_first_free_id(global_t *global)
+{
+    champion_t *tmp = global->champions;
+    int id = 1;
+
+    while (tmp != NULL) {
+        if (tmp->id == id) {
+            id++;
+            tmp = global->champions;
+        } else
+            tmp = tmp->next;
+    }
+    return id;
+}
+
 /**
  * @brief   Initializes a new champion.
  *
@@ -22,7 +37,7 @@ static champion_t *initchampion(global_t *global)
     if (global->prog_number != -1)
         champion->id = global->prog_number;
     else
-        id++;
+        champion->id = find_first_free_id(global);
     if (global->load_address != -1)
         champion->load_address = global->load_address;
     else
