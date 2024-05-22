@@ -135,6 +135,18 @@ void swapchampions(champion_t *tmp, champion_t *tmp2) {
     }
 }
 
+void changeids(global_t *global)
+{
+    champion_t *tmp = global->champions;
+
+    while (tmp != NULL && tmp->next != NULL) {
+        if (tmp->id == tmp->next->id) {
+            tmp->next->id += 1;
+        }
+        tmp = tmp->next;
+    }
+}
+
 void sortchampions(global_t *global)
 {
     champion_t *tmp = global->champions;
@@ -145,6 +157,7 @@ void sortchampions(global_t *global)
             swapchampions(tmp, tmp2);
         }
     }
+    changeids(global);
 }
 
 /**
