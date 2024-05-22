@@ -101,6 +101,12 @@ void copy_comment(champion_t *tmp, champion_t *new_champion)
         new_champion->comment[i] = tmp->comment[i];
 }
 
+void copy_code(champion_t *tmp, champion_t *new_champion)
+{
+    for (int i = 0; tmp->code[i]; i++)
+        new_champion->code[i] = tmp->code[i];
+}
+
 void swapchampions(champion_t *tmp, champion_t *tmp2) {
     champion_t *tmp3 = malloc(sizeof(champion_t));
 
@@ -110,18 +116,18 @@ void swapchampions(champion_t *tmp, champion_t *tmp2) {
         tmp3->load_address = tmp->load_address;
         copy_name(tmp, tmp3);
         copy_comment(tmp, tmp3);
-        tmp3->code = my_strdup(tmp->code);
+        copy_code(tmp, tmp3);
         tmp->id = tmp2->id;
         copy_name(tmp2, tmp);
         copy_comment(tmp2, tmp);
         tmp->size = tmp2->size;
-        tmp->code = my_strdup(tmp2->code);
+        copy_code(tmp2, tmp);
         tmp->load_address = tmp2->load_address;
         tmp2->id = tmp3->id;
         copy_name(tmp3, tmp2);
         copy_comment(tmp3, tmp2);
         tmp2->size = tmp3->size;
-        tmp2->code = my_strdup(tmp3->code);
+        copy_code(tmp3, tmp2);
         tmp2->load_address = tmp3->load_address;
     }
 }
