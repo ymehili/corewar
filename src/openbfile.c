@@ -88,26 +88,32 @@ static void check_flag(global_t *global, int argc, char const *argv[], int *i)
     }
 }
 
-void swapchampions(champion_t *tmp, champion_t *tmp2)
-{
+
+void swapchampions(champion_t *tmp, champion_t *tmp2) {
     champion_t *tmp3 = malloc(sizeof(champion_t));
 
     if (tmp->id > tmp2->id) {
         tmp3->id = tmp->id;
-        tmp3->name = tmp->name;
-        tmp3->comment = tmp->comment;
         tmp3->size = tmp->size;
-        tmp3->code = tmp->code;
         tmp3->load_address = tmp->load_address;
+        my_strcpy(tmp3->name, tmp->name);
+        my_strcpy(tmp3->comment, tmp->comment);
+        my_strcpy(tmp3->code, tmp->code);
+        free(tmp->name);
+        free(tmp->comment);
+        free(tmp->code);
         tmp->id = tmp2->id;
-        tmp->name = tmp2->name;
-        tmp->comment = tmp2->comment;
+        my_strcpy(tmp->name, tmp2->name);
+        my_strcpy(tmp->comment, tmp2->comment);
         tmp->size = tmp2->size;
-        tmp->code = tmp2->code;
+        tmp->code = strdup(tmp2->code);
         tmp->load_address = tmp2->load_address;
+        free(tmp2->name);
+        free(tmp2->comment);
+        free(tmp2->code);
         tmp2->id = tmp3->id;
-        tmp2->name = tmp3->name;
-        tmp2->comment = tmp3->comment;
+        my_strcpy(tmp2->name, tmp3->name);
+        my_strcpy(tmp2->comment, tmp3->comment);
         tmp2->size = tmp3->size;
         tmp2->code = tmp3->code;
         tmp2->load_address = tmp3->load_address;
@@ -145,12 +151,14 @@ int process_args(int argc, char const *argv[], global_t *global)
 
     check_flag(global, argc, argv, &i);
     for (; i < argc; i++) {
-        if (my_strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
-            global->prog_number = my_atoi(argv[++i]);
+        if (my_strcmp(argv[i], "-n") == 0 && i + 1 < argc && my_str_isnum(argv[i + 1]) == 0) {
+            global->prog_number = my_getnbr(argv[i + 1]);
+            i++;
             continue;
         }
-        if (my_strcmp(argv[i], "-a") == 0 && i + 1 < argc) {
-            global->load_address = my_atoi(argv[++i]);
+        if (my_strcmp(argv[i], "-a") == 0 && i + 1 < argc && my_str_isnum(argv[i + 1]) == 0) {
+            global->load_address = my_getnbr(argv[i + 1]);
+            i++;
             continue;
         }
         if (read_bfile(argv[i], &buffer, &size) != 0)

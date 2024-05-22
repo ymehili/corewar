@@ -12,7 +12,7 @@
  *
  * @return  A pointer to the newly initialized champion.
  */
-static champion_t *initchampion(void)
+static champion_t *initchampion(global_t *global)
 {
     static int id = 0;
     champion_t *champion = malloc(sizeof(champion_t));
@@ -98,7 +98,7 @@ void storebuffer(char *buffer, global_t *global, champion_t *tmp)
 {
     champion_t *new_champion = malloc(sizeof(champion_t));
 
-    new_champion = initchampion();
+    new_champion = initchampion(global);
     getchampioninfos(new_champion, buffer);
     if (global->champions == NULL) {
         global->champions = new_champion;
