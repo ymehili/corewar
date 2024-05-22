@@ -19,13 +19,12 @@
 int live_command(global_t *global, champion_t *champion, pc_t *op)
 {
     int paramone = get_direct(global, champion, op);
-
     champion->pc++;
     champion->alive++;
     champion->nb_live++;
     champion->last_live = global->cycle;
     mini_printf("The player %d (%s) is alive.\n",
-        champion->id + 1, champion->name);
+        paramone, champion->name);
     global->live_count++;
     return 0;
 }

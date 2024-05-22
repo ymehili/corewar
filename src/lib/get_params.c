@@ -7,6 +7,17 @@
 
 #include "../../include/src.h"
 
+void write_in_4_bytes(global_t *global, int address, int value)
+{
+    for (int i = 0; i < 4; i++) {
+        int current_address = (address + i) % MEM_SIZE;
+        uint8_t byte_value = (value >> (8 * (3 - i))) & 0xFF;
+        if (global->map[current_address] == 0x00 || byte_value != 0x00) {
+            global->map[current_address] = byte_value;
+        }
+    }
+}
+
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
 {
     switch (param) {

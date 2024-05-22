@@ -14,7 +14,7 @@
  */
 static champion_t *initchampion(global_t *global)
 {
-    static int id = 0;
+    static int id = 1;
     champion_t *champion = malloc(sizeof(champion_t));
 
     champion->to_exec = 0;
@@ -36,6 +36,7 @@ static champion_t *initchampion(global_t *global)
     champion->carry = 0;
     for (int i = 0; i < REG_NUMBER; i++)
         champion->reg[i] = 0;
+    champion->reg[0] = champion->id;
     champion->clone_next = NULL;
     champion->clone_prev = NULL;
     champion->next = NULL;

@@ -27,7 +27,7 @@ static void remove_from_main_list_2(champion_t *tmp, global_t *global)
 {
     champion_t *prev = NULL;
 
-    mini_printf("The champion %d (%s) is dead\n", tmp->id + 1, tmp->name);
+    mini_printf("The champion %d (%s) is dead\n", tmp->id, tmp->name);
     global->nb_champion--;
     if (global->champions == tmp) {
         global->champions = tmp->next;
@@ -72,7 +72,8 @@ static int remove_champion(champion_t *tmp, champion_t *tmp2, global_t *global)
     }
     if (global->nb_champion == 1) {
         mini_printf("The champion (%d) (%s) is the winner!\n",
-            global->champions->id + 1, global->champions->name);
+            global->champions->id, global->champions->name);
+        mini_printf("The game ended in %d cycles\n", global->cycle);
         return 1;
     }
     return 0;

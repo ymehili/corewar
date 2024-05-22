@@ -7,6 +7,8 @@
 
 #include "../../include/src.h"
 
+#include <stdint.h>
+
 /**
  * @brief           Stores the value of a register in the memory.
  *
@@ -20,6 +22,7 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
     int paramone = 0;
     int paramtwo = 0;
     int paramthree = 0;
+    int address = 0;
     int pc_copy = champion->pc;
 
     champion->pc += 1;
@@ -29,10 +32,10 @@ int sti_command(global_t *global, champion_t *champion, pc_t *op)
     paramtwo = is_a_register(champion, paramtwo, op->codingbyte.p3);
     paramthree = is_a_register(champion, paramthree, op->codingbyte.p2);
     paramtwo = is_a_indirect(global, pc_copy, paramtwo, op->codingbyte.p3);
-    global->map[(pc_copy + (paramtwo + paramthree) % IDX_MOD) %
-        MEM_SIZE] = champion->reg[paramone - 1];
-    global->colors_map[(pc_copy + (paramtwo + paramthree) % IDX_MOD) %
-        MEM_SIZE] = champion->id + 1;
+    address = (pc_copy + (paramtwo + paramthree) % IDX_MOD) % MEM_SIZE;
+    write_in_4_bytes(global, address, champion->reg[paramone - 1]);
+    for (int i = 0; i < 4; i++)
+        global->colors_map[(address + i) % MEM_SIZE] = champion->id + 1;
     champion->pc += 1;
     return 0;
 }

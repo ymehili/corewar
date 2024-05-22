@@ -122,7 +122,7 @@ static void print_info_champion(global_t *global)
     float process_y_offset = 17;
 
     for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
-        sprintf(info, "Champion %d: %s", tmp->id + 1, tmp->name);
+        sprintf(info, "Champion %d: %s", tmp->id, tmp->name);
         sfText_setString(text, info);
         sfText_setPosition(text, (sfVector2f){base_x, base_y});
         sfRenderWindow_drawText(global->window, text, NULL);
@@ -225,7 +225,7 @@ void launch_game_graphical(global_t *global,
 {
     int check_live = 0;
     int end = 0;
-    int paused = 0; // Variable to track if the game is paused
+    int paused = 0;
     sfEvent event;
     sfVideoMode mode = {1920, 1080, 32};
     global->window = sfRenderWindow_create(mode, "Corewar", sfResize | sfClose, NULL);
@@ -236,7 +236,7 @@ void launch_game_graphical(global_t *global,
                 sfRenderWindow_close(global->window);
             }
             if (event.type == sfEvtKeyPressed && event.key.code == sfKeySpace) {
-                paused = !paused; // Toggle the paused state
+                paused = !paused;
             }
         }
 
@@ -254,7 +254,7 @@ void launch_game_graphical(global_t *global,
                 return;
         }
 
-        display_info(global); // Always display the info, even when paused
+        display_info(global);
     }
     sfRenderWindow_destroy(global->window);
 }
