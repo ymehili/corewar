@@ -83,7 +83,45 @@ static void check_flag(global_t *global, int argc, char const *argv[], int *i)
             && my_str_isnum(argv[t + 1]) == 0) {
             global->dump = my_getnbr(argv[t + 1]);
             (*i) += 2;
-            return;
+            t++;
+        }
+    }
+}
+
+void swapchampions(champion_t *tmp, champion_t *tmp2)
+{
+    champion_t *tmp3 = malloc(sizeof(champion_t));
+
+    if (tmp->id > tmp2->id) {
+        tmp3->id = tmp->id;
+        tmp3->name = tmp->name;
+        tmp3->comment = tmp->comment;
+        tmp3->size = tmp->size;
+        tmp3->code = tmp->code;
+        tmp3->load_address = tmp->load_address;
+        tmp->id = tmp2->id;
+        tmp->name = tmp2->name;
+        tmp->comment = tmp2->comment;
+        tmp->size = tmp2->size;
+        tmp->code = tmp2->code;
+        tmp->load_address = tmp2->load_address;
+        tmp2->id = tmp3->id;
+        tmp2->name = tmp3->name;
+        tmp2->comment = tmp3->comment;
+        tmp2->size = tmp3->size;
+        tmp2->code = tmp3->code;
+        tmp2->load_address = tmp3->load_address;
+    }
+}
+
+void sortchampions(global_t *global)
+{
+    champion_t *tmp = global->champions;
+    champion_t *tmp2 = global->champions;
+
+    for (; tmp != NULL; tmp = tmp->next) {
+        for (tmp2 = tmp->next; tmp2 != NULL; tmp2 = tmp2->next) {
+            swapchampions(tmp, tmp2);
         }
     }
 }
@@ -107,10 +145,20 @@ int process_args(int argc, char const *argv[], global_t *global)
 
     check_flag(global, argc, argv, &i);
     for (; i < argc; i++) {
+        if (my_strcmp(argv[i], "-n") == 0 && i + 1 < argc) {
+            global->prog_number = my_atoi(argv[++i]);
+            continue;
+        }
+        if (my_strcmp(argv[i], "-a") == 0 && i + 1 < argc) {
+            global->load_address = my_atoi(argv[++i]);
+            continue;
+        }
         if (read_bfile(argv[i], &buffer, &size) != 0)
             return 1;
         storebuffer(buffer, global, tmp);
-        free(buffer);
+        global->prog_number = -1;
+        global->load_address = -1;
     }
+    sortchampions(global);
     return 0;
 }

@@ -60,3 +60,4 @@ corewar-battle
 .vscode/launch.json
 .vscode/tasks.json
 coding-style-reports.log
+.vscode/c_cpp_properties.json

@@ -19,7 +19,14 @@ static champion_t *initchampion(void)
 
     champion->to_exec = 0;
     champion->id = id;
-    id++;
+    if (global->prog_number != -1)
+        champion->id = global->prog_number;
+    else
+        id++;
+    if (global->load_address != -1)
+        champion->load_address = global->load_address;
+    else
+        champion->load_address = -1;
     champion->size = 0;
     champion->pc = 0;
     champion->wait = 1;

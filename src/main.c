@@ -50,6 +50,8 @@ static global_t *initglobal(void)
     global->live_count = 0;
     global->dump = -1;
     global->flag_print = 0;
+    global->prog_number = -1;
+    global->load_adress = -1;
     init_command(global);
     return global;
 }
@@ -67,7 +69,10 @@ void create_map(global_t *global)
     global->colors_map = my_malloc(sizeof(int) * MEM_SIZE);
     global->map = my_malloc(sizeof(char) * MEM_SIZE);
     for (int i = 0; i < global->nb_champion; i++) {
-        debut = (MEM_SIZE / global->nb_champion) * i;
+        if (champion->load_address != -1)
+            debut = champion->load_address;
+        else
+            debut = (MEM_SIZE / global->nb_champion) * i;
         for (int j = 0; j < tmp->size; j++) {
             global->map[debut + j] = tmp->code[j];
             global->colors_map[debut + j] = i + 1;

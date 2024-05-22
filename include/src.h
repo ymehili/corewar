@@ -39,6 +39,7 @@ typedef struct champion_s {
     int nb_live;
     int carry;
     int to_exec;
+    int load_address;
     struct champion_s *clone_next;
     struct champion_s *clone_prev;
     struct champion_s *next;
@@ -66,6 +67,8 @@ typedef struct global_s {
     char *map;
     char *commands;
     int flag_print;
+    int prog_number;
+    int load_address;
     sfRenderWindow *window;
     champion_t *champions;
 } global_t;
