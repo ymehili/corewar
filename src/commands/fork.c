@@ -50,7 +50,6 @@ int fork_command(global_t *global, champion_t *champion, pc_t *op)
     champion->pc -= 2;
     new_champion->pc = (champion->pc + paramone % IDX_MOD) % MEM_SIZE;
     champion->pc += 3;
-    // champion->wait += 800;
     champion->to_exec = 0;
     return 0;
 }

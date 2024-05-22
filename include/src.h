@@ -65,6 +65,7 @@ typedef struct global_s {
     int *colors_map;
     char *map;
     char *commands;
+    int flag_print;
     sfRenderWindow *window;
     champion_t *champions;
 } global_t;
@@ -97,7 +98,7 @@ int get_register(global_t *global, champion_t *champion, pc_t *op);
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param);
 
 int is_a_register(champion_t *champion, int param, char paramtype);
-int is_a_indirect(global_t *global, champion_t *champion,
+int is_a_indirect(global_t *global, int pc,
     int param, char paramtype);
 
 int process_args(int argc, char const *argv[], global_t *global);
@@ -109,7 +110,12 @@ int new_op(global_t *global, champion_t *tmp,
 
 int check_alive(global_t *global);
 int print_in_hexa(global_t *global);
+void change_cycle(global_t *global);
+int start_game(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 
 void display_info(global_t *global);
 
+void launch_game_graphical(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
 #endif /* !SRC_H_ */

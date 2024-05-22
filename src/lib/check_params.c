@@ -7,13 +7,13 @@
 
 #include "../../include/src.h"
 
-int is_a_indirect(global_t *global, champion_t *champion,
+int is_a_indirect(global_t *global, int pc,
     int param, char paramtype)
 {
     int ind_val = param;
 
     if (paramtype == 0b11)
-        ind_val = global->map[champion->pc + param % IDX_MOD];
+        ind_val = global->map[pc + param % IDX_MOD] % MEM_SIZE;
     return ind_val;
 }
 
@@ -21,8 +21,9 @@ int is_a_register(champion_t *champion, int param, char paramtype)
 {
     int reg_val = param;
 
-    if (paramtype == 0b01)
+    if (paramtype == 0b01) {
         reg_val = champion->reg[param - 1];
+    }
     return reg_val;
 }
 

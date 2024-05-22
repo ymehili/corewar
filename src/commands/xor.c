@@ -13,7 +13,6 @@ static int xor3_command(champion_t *champion, int paramthree)
     else
         champion->carry = 0;
     champion->pc += 1;
-    // champion->wait += 6;
     return 0;
 }
 
@@ -38,17 +37,18 @@ int xor_command(global_t *global, champion_t *champion, pc_t *op)
     int paramone = 0;
     int paramtwo = 0;
     int paramthree = 0;
+    int pc_copy = champion->pc + 2;
 
     champion->pc += 1;
     paramone = get_params(global, champion, op, op->codingbyte.p4);
     paramtwo = get_params(global, champion, op, op->codingbyte.p3);
     paramthree = get_params(global, champion, op, op->codingbyte.p2);
-    if (xor2_command(champion, &paramone, &paramtwo, op) == -1)
-        return -1;
-    paramone = is_a_indirect(global, champion, paramone, op->codingbyte.p4);
-    paramtwo = is_a_indirect(global, champion, paramtwo, op->codingbyte.p3);
     if (paramthree < 1 || paramthree > REG_NUMBER)
         return -1;
+    if (xor2_command(champion, &paramone, &paramtwo, op) == -1)
+        return -1;
+    paramone = is_a_indirect(global, pc_copy, paramone, op->codingbyte.p4);
+    paramtwo = is_a_indirect(global, pc_copy, paramtwo, op->codingbyte.p3);
     champion->reg[paramthree - 1] = paramone ^ paramtwo;
     return xor3_command(champion, paramthree);
 }

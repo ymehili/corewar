@@ -19,6 +19,5 @@ int aff_command(global_t *global, champion_t *champion, pc_t *op)
     ascii = champion->reg[paramone - 1] % 256;
     mini_printf("char : %c with is ascci %d\n", ascii, ascii);
     champion->pc += 1;
-    // champion->wait += 2;
     return 0;
 }

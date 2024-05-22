@@ -74,13 +74,18 @@ static int my_str_isnum(char const *str)
  */
 static void check_flag(global_t *global, int argc, char const *argv[], int *i)
 {
-    for (int t = 1; t < argc; t++)
+    for (int t = 1; t < argc; t++) {
+        if (my_strcmp(argv[t], "-view") == 0) {
+            global->flag_print = 1;
+            (*i)++;
+        }
         if (my_strcmp(argv[t], "-dump") == 0 && t + 1 < argc
             && my_str_isnum(argv[t + 1]) == 0) {
             global->dump = my_getnbr(argv[t + 1]);
             (*i) += 2;
             return;
         }
+    }
 }
 
 /**

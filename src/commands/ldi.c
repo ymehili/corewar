@@ -15,7 +15,6 @@ static int ldi4_command(int result, global_t *global,
         champion->carry = 1;
     else
         champion->carry = 0;
-    // champion->wait += 25;
     champion->pc += 1;
     return 0;
 }

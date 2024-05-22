@@ -16,6 +16,5 @@ int zjmp_command(global_t *global, champion_t *champion, pc_t *op)
         champion->pc -= 2;
         champion->pc = (champion->pc + paramone % IDX_MOD) % MEM_SIZE;
     }
-    // champion->wait += 20;
     return 1;
 }

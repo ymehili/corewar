@@ -7,6 +7,137 @@
 
 #include "../include/src.h"
 
+static void print_register(champion_t *champion, global_t *global, float base_x, float base_y)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 15);
+    sfText_setFillColor(text, sfWhite);
+    char reg[100];
+
+    for (int i = 0; i < REG_NUMBER; i++) {
+        sprintf(reg, "r%d: %d", i + 1, champion->reg[i]);
+        sfText_setString(text, reg);
+        sfText_setPosition(text, (sfVector2f){base_x, base_y + (i * 20)}); // Reduced spacing between lines
+        sfRenderWindow_drawText(global->window, text, NULL);
+    }
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_process_count(champion_t *champion, global_t *global, float base_x, float base_y)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 17);
+    sfText_setFillColor(text, sfWhite);
+    char process_count[100];
+    
+    int count = 1;
+    champion_t *process = champion->clone_next;
+    if (process != NULL)
+        count = 0;
+    while (process != NULL) {
+        count++;
+        process = process->next;
+    }
+    
+    sprintf(process_count, "Nb processes: %d", count);
+    sfText_setString(text, process_count);
+    sfText_setPosition(text, (sfVector2f){base_x, base_y});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_lives_count(champion_t *champion, global_t *global, float base_x, float base_y)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 17);
+    sfText_setFillColor(text, sfWhite);
+    char lives_count[100];
+    
+    sprintf(lives_count, "lives: %d", champion->nb_live);
+    sfText_setString(text, lives_count);
+    sfText_setPosition(text, (sfVector2f){base_x, base_y});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_champ_pc(champion_t *champion, global_t *global, float base_x, float base_y)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 17);
+    sfText_setFillColor(text, sfWhite);
+    char champ_pc[100];
+    
+    sprintf(champ_pc, "Champ PC: %d", champion->pc);
+    sfText_setString(text, champ_pc);
+    sfText_setPosition(text, (sfVector2f){base_x, base_y});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_champ_carry(champion_t *champion, global_t *global, float base_x, float base_y)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 17);
+    sfText_setFillColor(text, sfWhite);
+    char champ_carry[100];
+    
+    sprintf(champ_carry, "Carry: %d", champion->carry);
+    sfText_setString(text, champ_carry);
+    sfText_setPosition(text, (sfVector2f){base_x, base_y});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_info_champion(global_t *global)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 20);
+    sfText_setFillColor(text, sfWhite);
+    char info[100];
+    float base_x = 10;
+    float base_y = 40;
+    float x_offset = 300;
+    float y_offset = 30;
+    float process_y_offset = 17;
+
+    for (champion_t *tmp = global->champions; tmp != NULL; tmp = tmp->next) {
+        sprintf(info, "Champion %d: %s", tmp->id + 1, tmp->name);
+        sfText_setString(text, info);
+        sfText_setPosition(text, (sfVector2f){base_x, base_y});
+        sfRenderWindow_drawText(global->window, text, NULL);
+
+        print_register(tmp, global, base_x, base_y + y_offset);
+        print_lives_count(tmp, global, base_x, base_y + y_offset + (REG_NUMBER * 20));
+        print_process_count(tmp, global, base_x, base_y + y_offset + (REG_NUMBER * 20) + process_y_offset);
+        print_champ_pc(tmp, global, base_x, base_y + y_offset + (REG_NUMBER * 20) + process_y_offset + 17);
+        print_champ_carry(tmp, global, base_x, base_y + y_offset + (REG_NUMBER * 20) + process_y_offset + 34);
+        base_x += x_offset;
+    }
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
 static void print_cycle(global_t *global)
 {
     sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
@@ -18,16 +149,16 @@ static void print_cycle(global_t *global)
 
     sprintf(cycle, "Cycle: %d", global->cycle);
     sfText_setString(text, cycle);
-    sfText_setPosition(text, (sfVector2f){10, 10});
+    sfText_setPosition(text, (sfVector2f){10, 480});
     sfRenderWindow_drawText(global->window, text, NULL);
     sfText_destroy(text);
     sfFont_destroy(font);
-    // free(cycle);
 }
 
-int print_in_hexa(global_t *global)
+int print_in_window(global_t *global)
 {
     print_cycle(global);
+    print_info_champion(global);
     char hex[3];
     sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
     sfText *text = sfText_create();
@@ -35,9 +166,8 @@ int print_in_hexa(global_t *global)
     sfText_setFont(text, font);
     sfText_setCharacterSize(text, 10);
 
-
-    int columns = 127;
-    float startX = 10;
+    int columns = 128;
+    float startX = 0;
     float startY = 510;
     float cellWidth = 15;
     float cellHeight = 10;
@@ -80,6 +210,51 @@ int print_in_hexa(global_t *global)
 void display_info(global_t *global)
 {
     sfRenderWindow_clear(global->window, sfBlack);
-    print_in_hexa(global);
+    print_in_window(global);
     sfRenderWindow_display(global->window);
+}
+
+/**
+ * @brief           Launches the game loop.
+ *
+ * @param global    The global structure containing game data.
+ * @param all_command   An array of function pointers to the commands.
+ */
+void launch_game_graphical(global_t *global,
+    int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
+{
+    int check_live = 0;
+    int end = 0;
+    int paused = 0; // Variable to track if the game is paused
+    sfEvent event;
+    sfVideoMode mode = {1920, 1080, 32};
+    global->window = sfRenderWindow_create(mode, "Corewar", sfResize | sfClose, NULL);
+
+    while (sfRenderWindow_isOpen(global->window) && global->nb_champion != 1) {
+        while (sfRenderWindow_pollEvent(global->window, &event)) {
+            if (event.type == sfEvtClosed || sfKeyboard_isKeyPressed(sfKeyEscape)) {
+                sfRenderWindow_close(global->window);
+            }
+            if (event.type == sfEvtKeyPressed && event.key.code == sfKeySpace) {
+                paused = !paused; // Toggle the paused state
+            }
+        }
+
+        if (!paused) {
+            if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
+                check_live = 0;
+                end = check_alive(global);
+            }
+            if (end == 1)
+                return;
+            if (global->live_count >= NBR_LIVE)
+                change_cycle(global);
+            check_live++;
+            if (start_game(global, all_command) == -2)
+                return;
+        }
+
+        display_info(global); // Always display the info, even when paused
+    }
+    sfRenderWindow_destroy(global->window);
 }

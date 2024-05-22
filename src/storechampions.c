@@ -16,7 +16,7 @@ static champion_t *initchampion(void)
 {
     static int id = 0;
     champion_t *champion = malloc(sizeof(champion_t));
- 
+
     champion->to_exec = 0;
     champion->id = id;
     id++;

@@ -42,7 +42,6 @@ static void init_command(global_t *global)
 static global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
-    sfVideoMode mode = {1920, 1080, 32};
 
     global->champions = NULL;
     global->nb_champion = 0;
@@ -50,8 +49,8 @@ static global_t *initglobal(void)
     global->cycle = 0;
     global->live_count = 0;
     global->dump = -1;
+    global->flag_print = 0;
     init_command(global);
-    global->window = sfRenderWindow_create(mode, "Corewar", sfResize | sfClose, NULL);
     return global;
 }
 
@@ -73,11 +72,10 @@ void create_map(global_t *global)
             global->map[debut + j] = tmp->code[j];
             global->colors_map[debut + j] = i + 1;
         }
-        tmp->alive = 1;
+        tmp->alive = 0;
         tmp->pc = debut;
         tmp = tmp->next;
     }
-    // print_in_hexa(global);
 }
 
 /**
@@ -100,6 +98,9 @@ int main(int argc, char const *argv[])
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);
-    launch_game(global, all_command);
+    if (global->flag_print == 1)
+        launch_game_graphical(global, all_command);
+    else
+        launch_game(global, all_command);
     return 0;
 }
