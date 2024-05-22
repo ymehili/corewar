@@ -110,7 +110,7 @@ void copy_code(champion_t *tmp, champion_t *new_champion)
 void swapchampions(champion_t *tmp, champion_t *tmp2) {
     champion_t *tmp3 = malloc(sizeof(champion_t));
 
-    if (tmp->id > tmp2->id) {
+    if (tmp->id >= tmp2->id) {
         tmp3->id = tmp->id;
         tmp3->size = tmp->size;
         tmp3->load_address = tmp->load_address;
