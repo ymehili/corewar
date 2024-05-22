@@ -7,10 +7,10 @@
 
 #include "../include/src.h"
 
-void find_first_free_id(global_t *global)
+int find_first_free_id(global_t *global)
 {
-    champion_t *tmp = global->champions;
     int id = 1;
+    champion_t *tmp = global->champions;
 
     while (tmp != NULL) {
         if (tmp->id == id) {
