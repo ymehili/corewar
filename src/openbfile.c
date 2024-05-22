@@ -89,6 +89,24 @@ static void check_flag(global_t *global, int argc, char const *argv[], int *i)
 }
 
 
+void copy_name(champion_t *tmp, champion_t *new_champion)
+{
+    for (int i = 0; i < PROG_NAME_LENGTH; i++)
+        new_champion->name[i] = tmp->name[i];
+}
+
+void copy_comment(champion_t *tmp, champion_t *new_champion)
+{
+    for (int i = 0; i < COMMENT_LENGTH; i++)
+        new_champion->comment[i] = tmp->comment[i];
+}
+
+void copy_code(champion_t *tmp, champion_t *new_champion)
+{
+    for (int i = 0; i < tmp->size; i++)
+        new_champion->code[i] = tmp->code[i];
+}
+
 void swapchampions(champion_t *tmp, champion_t *tmp2) {
     champion_t *tmp3 = malloc(sizeof(champion_t));
 
@@ -96,26 +114,20 @@ void swapchampions(champion_t *tmp, champion_t *tmp2) {
         tmp3->id = tmp->id;
         tmp3->size = tmp->size;
         tmp3->load_address = tmp->load_address;
-        my_strcpy(tmp3->name, tmp->name);
-        my_strcpy(tmp3->comment, tmp->comment);
-        my_strcpy(tmp3->code, tmp->code);
-        free(tmp->name);
-        free(tmp->comment);
-        free(tmp->code);
+        copy_name(tmp, tmp3);
+        copy_comment(tmp, tmp3);
+        copy_code(tmp, tmp3);
         tmp->id = tmp2->id;
-        my_strcpy(tmp->name, tmp2->name);
-        my_strcpy(tmp->comment, tmp2->comment);
+        copy_name(tmp2, tmp);
+        copy_comment(tmp2, tmp);
         tmp->size = tmp2->size;
-        tmp->code = strdup(tmp2->code);
+        copy_code(tmp2, tmp);
         tmp->load_address = tmp2->load_address;
-        free(tmp2->name);
-        free(tmp2->comment);
-        free(tmp2->code);
         tmp2->id = tmp3->id;
-        my_strcpy(tmp2->name, tmp3->name);
-        my_strcpy(tmp2->comment, tmp3->comment);
+        copy_name(tmp3, tmp2);
+        copy_comment(tmp3, tmp2);
         tmp2->size = tmp3->size;
-        tmp2->code = tmp3->code;
+        copy_code(tmp3, tmp2);
         tmp2->load_address = tmp3->load_address;
     }
 }
