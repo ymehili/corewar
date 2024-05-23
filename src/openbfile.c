@@ -181,13 +181,16 @@ void sortchampions(global_t *global)
  * @return          Returns 0 if the operation is successful, otherwise returns
  *                  1.
  */
-int process_flags(int *i, int argc, char const *argv[], global_t *global) {
-    if (my_strcmp(argv[*i], "-n") == 0 && *i + 1 < argc && my_str_isnum(argv[*i + 1]) == 0) {
+int process_flags(int *i, int argc, char const *argv[], global_t *global)
+{
+    if (my_strcmp(argv[*i], "-n") == 0 && *i + 1 < argc &&
+        my_str_isnum(argv[*i + 1]) == 0) {
         global->prog_number = my_getnbr(argv[*i + 1]);
         (*i)++;
         return 1;
     }
-    if (my_strcmp(argv[*i], "-a") == 0 && *i + 1 < argc && my_str_isnum(argv[*i + 1]) == 0) {
+    if (my_strcmp(argv[*i], "-a") == 0 && *i + 1 < argc &&
+        my_str_isnum(argv[*i + 1]) == 0) {
         global->load_address = my_getnbr(argv[*i + 1]);
         (*i)++;
         return 1;
@@ -195,9 +198,11 @@ int process_flags(int *i, int argc, char const *argv[], global_t *global) {
     return 0;
 }
 
-int process_file(int i, char const *argv[], global_t *global, champion_t *tmp) {
+int process_file(int i, char const *argv[], global_t *global,
+    champion_t *tmp) {
     char *buffer;
     int size;
+
     if (read_bfile(argv[i], &buffer, &size) != 0)
         return 1;
     storebuffer(buffer, global, tmp);
