@@ -79,11 +79,10 @@ void change_cycle(global_t *global)
 void launch_game(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    int check_live = 0;
     int end = 0;
 
     while (global->nb_champion != 1) {
-        if (global->cycle_count_die >= global->cycle_to_die &
+        if (global->cycle_count_die >= global->cycle_to_die &&
             global->cycle_to_die > 0) {
             global->cycle_count_die = 0;
             end = check_alive(global);

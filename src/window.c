@@ -288,8 +288,8 @@ void launch_game_graphical(global_t *global,
             if (start_game(global, all_command) == -2)
                 return;
         }
-
         display_info(global);
+        usleep(global->sleep_time);
     }
     sfRenderWindow_destroy(global->window);
 }

@@ -71,6 +71,7 @@ typedef struct global_s {
     int flag_print;
     int prog_number;
     int load_address;
+    int sleep_time;
     sfRenderWindow *window;
     champion_t *champions;
 } global_t;

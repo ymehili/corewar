@@ -49,6 +49,7 @@ static global_t *initglobal(void)
     global->cycle_count_die = 0;
     global->cycle = 0;
     global->live_count = 0;
+    global->sleep_time = 0;
     global->dump = -1;
     global->flag_print = 0;
     global->prog_number = -1;
@@ -101,6 +102,8 @@ int main(int argc, char const *argv[])
         &lfork_command, &aff_command
     };
 
+    if (argc == 1)
+        return 84;
     if (process_args(argc, argv, global))
         return 84;
     create_map(global);
