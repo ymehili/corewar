@@ -46,6 +46,7 @@ static global_t *initglobal(void)
     global->champions = NULL;
     global->nb_champion = 0;
     global->cycle_to_die = CYCLE_TO_DIE;
+    global->cycle_count_die = 0;
     global->cycle = 0;
     global->live_count = 0;
     global->dump = -1;

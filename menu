@@ -1,0 +1,88 @@
+import tkinter as tk
+from tkinter import filedialog
+import subprocess
+import os
+
+# Global variable to store file paths for load
+selected_files_load = []
+
+def init_window():
+    window = tk.Tk()
+    window.title("Hello World")
+    window.geometry("1920x1080")
+    window.configure(background="ivory3")
+    window.bind('<Escape>', lambda event: window.destroy())
+    return window
+
+def start_corewar(main_window):
+    global selected_files_load
+    if not selected_files_load:
+        print("No files loaded to start Corewar")
+        return
+
+    start_path = "champions/Good/"
+    files_with_prefix = [start_path + os.path.basename(file) for file in selected_files_load]
+
+    command = ["./corewar", "-view"] + files_with_prefix
+    print("Running command:", command)
+    process = subprocess.run(
+        command,
+        stdout=subprocess.PIPE,
+        text=True
+    )
+    print(process.stdout)
+
+def select_files_create(label):
+    filetypes = [("All Files", "*.*")]
+    filepaths = filedialog.askopenfilenames(title="Select Files", filetypes=filetypes)
+    if filepaths:
+        filenames = "\n".join([os.path.basename(filepath) for filepath in filepaths])
+        label.config(text=filenames)
+        label.place(x=100, y=600)
+
+def select_files_load(label):
+    global selected_files_load
+    filetypes = [("All Files", "*.*")]
+    filepaths = filedialog.askopenfilenames(title="Select Files", filetypes=filetypes)
+    if filepaths:
+        selected_files_load = list(filepaths)
+        filenames = "\n".join([os.path.basename(filepath) for filepath in filepaths])
+        label.config(text=filenames)
+        label.place(x=1650, y=600)
+
+def create_rounded_button(parent, text, command, x, y, width=120, height=50, corner_radius=25, bg_color="black", fg_color="white"):
+    button = tk.Canvas(parent, width=width, height=height, bd=0, highlightthickness=0, relief="flat", bg="ivory3")
+    button.place(x=x, y=y)
+    
+    button.create_oval((0, 0, corner_radius * 2, corner_radius * 2), fill=bg_color, outline=bg_color)
+    button.create_oval((width - corner_radius * 2, 0, width, corner_radius * 2), fill=bg_color, outline=bg_color)
+    button.create_oval((0, height - corner_radius * 2, corner_radius * 2, height), fill=bg_color, outline=bg_color)
+    button.create_oval((width - corner_radius * 2, height - corner_radius * 2, width, height), fill=bg_color, outline=bg_color)
+    button.create_rectangle((corner_radius, 0, width - corner_radius, height), fill=bg_color, outline=bg_color)
+    button.create_rectangle((0, corner_radius, width, height - corner_radius), fill=bg_color, outline=bg_color)
+    
+    button.create_text(width // 2, height // 2, text=text, fill=fg_color, font=("Helvetica", 14, "bold"))
+
+    button.bind("<Button-1>", lambda event: command())
+    return button
+
+def create_window():
+    window = init_window()
+
+    label = tk.Label(window, text="COREWAR", bg="ivory3", fg="navy", font=("Helvetica", 25, "bold"))
+    label.place(relx=0.5, rely=0.1, anchor='center')
+
+    files_label = tk.Label(window, text="", bg="ivory3", fg="black", wraplength=300, justify="left", font=("Helvetica", 10))
+    files_label.place(x=50, y=600)
+
+    create_rounded_button(window, "Create", lambda: select_files_create(files_label), x=300, y=500, bg_color="Black", fg_color="White")
+    create_rounded_button(window, "Load", lambda: select_files_load(files_label), x=1620, y=500, bg_color="Black", fg_color="White")
+    create_rounded_button(window, "Start", lambda: start_corewar(window), x=940, y=800, bg_color="Black", fg_color="White")
+
+    window.mainloop()
+
+def main():
+    create_window()
+
+if __name__ == "__main__":
+    main()

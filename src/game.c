@@ -83,15 +83,16 @@ void launch_game(global_t *global,
     int end = 0;
 
     while (global->nb_champion != 1) {
-        if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
-            check_live = 0;
+        if (global->cycle_count_die >= global->cycle_to_die &
+            global->cycle_to_die > 0) {
+            global->cycle_count_die = 0;
             end = check_alive(global);
         }
         if (end == 1)
             return;
         if (global->live_count >= NBR_LIVE)
             change_cycle(global);
-        check_live++;
+        global->cycle_count_die++;
         if (start_game(global, all_command) == -2)
             return;
     }

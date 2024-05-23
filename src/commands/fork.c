@@ -24,7 +24,6 @@ static champion_t *init_clone_champion(champion_t *champion, int paramone)
     champion_t *new_champion = malloc(sizeof(champion_t));
 
     new_champion->pc = 0;
-    new_champion->wait = 800;
     new_champion->id = champion->id;
     new_champion->size = champion->size;
     new_champion->code = my_strdup(champion->code);

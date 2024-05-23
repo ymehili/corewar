@@ -113,6 +113,7 @@ static void swap_2(champion_t *tmp, champion_t *tmp2, champion_t *tmp3)
     tmp->code = my_malloc(sizeof(char) * (tmp2->size + 1));
     copy_code(tmp2, tmp);
     tmp->load_address = tmp2->load_address;
+    tmp->reg[0] = tmp->id;
     tmp2->id = tmp3->id;
     copy_name(tmp3, tmp2);
     copy_comment(tmp3, tmp2);
@@ -120,6 +121,7 @@ static void swap_2(champion_t *tmp, champion_t *tmp2, champion_t *tmp3)
     tmp2->code = my_malloc(sizeof(char) * (tmp3->size + 1));
     copy_code(tmp3, tmp2);
     tmp2->load_address = tmp3->load_address;
+    tmp2->reg[0] = tmp2->id;
 }
 
 void swapchampions(champion_t *tmp, champion_t *tmp2)
@@ -185,12 +187,14 @@ int process_args(int argc, char const *argv[], global_t *global)
 
     check_flag(global, argc, argv, &i);
     for (; i < argc; i++) {
-        if (my_strcmp(argv[i], "-n") == 0 && i + 1 < argc && my_str_isnum(argv[i + 1]) == 0) {
+        if (my_strcmp(argv[i], "-n") == 0 && i + 1 < argc &&
+            my_str_isnum(argv[i + 1]) == 0) {
             global->prog_number = my_getnbr(argv[i + 1]);
             i++;
             continue;
         }
-        if (my_strcmp(argv[i], "-a") == 0 && i + 1 < argc && my_str_isnum(argv[i + 1]) == 0) {
+        if (my_strcmp(argv[i], "-a") == 0 && i + 1 < argc &&
+            my_str_isnum(argv[i + 1]) == 0) {
             global->load_address = my_getnbr(argv[i + 1]);
             i++;
             continue;

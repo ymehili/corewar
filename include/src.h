@@ -61,6 +61,7 @@ typedef struct pc_s {
 typedef struct global_s {
     int nb_champion;
     int cycle_to_die;
+    int cycle_count_die;
     int cycle;
     int dump;
     int live_count;

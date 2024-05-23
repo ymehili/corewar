@@ -155,9 +155,46 @@ static void print_cycle(global_t *global)
     sfFont_destroy(font);
 }
 
+static void print_cycle_to_die(global_t *global)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 20);
+    sfText_setFillColor(text, sfWhite);
+    char cycle_to_die[100];
+
+    sprintf(cycle_to_die, "Cycle to die : %d/%d",global->cycle_count_die ,global->cycle_to_die);
+    sfText_setString(text, cycle_to_die);
+    sfText_setPosition(text, (sfVector2f){310, 480});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+static void print_live_count(global_t *global)
+{
+    sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setCharacterSize(text, 20);
+    sfText_setFillColor(text, sfWhite);
+    char live_count[100];
+
+    sprintf(live_count, "Lives: %d/40", global->live_count);
+    sfText_setString(text, live_count);
+    sfText_setPosition(text, (sfVector2f){610, 480});
+    sfRenderWindow_drawText(global->window, text, NULL);
+    sfText_destroy(text);
+    sfFont_destroy(font);
+}
+
+
 int print_in_window(global_t *global)
 {
     print_cycle(global);
+    print_cycle_to_die(global);
+    print_live_count(global);   
     print_info_champion(global);
     char hex[3];
     sfFont *font = sfFont_createFromFile("bonus/robotmono.ttf");
@@ -223,7 +260,6 @@ void display_info(global_t *global)
 void launch_game_graphical(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *))
 {
-    int check_live = 0;
     int end = 0;
     int paused = 0;
     sfEvent event;
@@ -239,17 +275,16 @@ void launch_game_graphical(global_t *global,
                 paused = !paused;
             }
         }
-
         if (!paused) {
-            if (check_live >= global->cycle_to_die && global->cycle_to_die > 0) {
-                check_live = 0;
+            if (global->cycle_count_die >= global->cycle_to_die && global->cycle_to_die > 0) {
+                global->cycle_count_die= 0;
                 end = check_alive(global);
             }
             if (end == 1)
                 return;
             if (global->live_count >= NBR_LIVE)
                 change_cycle(global);
-            check_live++;
+            global->cycle_count_die++;
             if (start_game(global, all_command) == -2)
                 return;
         }

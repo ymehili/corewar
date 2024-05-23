@@ -18,6 +18,7 @@
 int16_t read_2_bytes(global_t *global, int address)
 {
     int16_t value = 0;
+
     for (int i = 0; i < 2; i++) {
         value = (value << 8) | global->map[(address + i) % MEM_SIZE];
     }
