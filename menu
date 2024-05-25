@@ -23,7 +23,7 @@ def start_corewar(main_window):
     start_path = "champions/Good/"
     files_with_prefix = [start_path + os.path.basename(file) for file in selected_files_load]
 
-    command = ["./corewar", "-view"] + files_with_prefix
+    command = ["./corewar", "-view", "0"] + files_with_prefix
     print("Running command:", command)
     process = subprocess.run(
         command,
