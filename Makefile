@@ -9,7 +9,8 @@
 ##              VARIABLES               ##
 
 CC 					:= gcc
-CFLAGS 				:= -I./include/ -W -Wall -Wextra -Wno-unused-parameter -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
+CFLAGS 				:= -I./include/ -W -Wall -Wextra -Wno-unused-parameter \
+				-lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
 DFLAGS 				:= -g3
 EXECUTABLE 			:= corewar
 TEST_EXECUTABLE 	:= unit_tests

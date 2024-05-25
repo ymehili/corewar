@@ -111,6 +111,7 @@ void write_in_4_bytes(global_t *global, int address, int value);
 int read_4_bytes(global_t *global, int address);
 int16_t read_2_bytes(global_t *global, int address);
 
+int read_from_file(int fd, char **buffer, int *size);
 
 int process_args(int argc, char const *argv[], global_t *global);
 void create_map(global_t *global);
@@ -127,6 +128,11 @@ int start_game(global_t *global,
 
 void display_info(global_t *global);
 
+int process_flags(int *i, int argc, char const *argv[], global_t *global);
+int process_file(int i, char const *argv[], global_t *global,
+    champion_t *tmp);
 void launch_game_graphical(global_t *global,
     int (*all_command[NB_COMMAND])(global_t *, champion_t *, pc_t *));
+int my_str_isnum(char const *str);
+
 #endif /* !SRC_H_ */

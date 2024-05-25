@@ -26,7 +26,6 @@ int16_t read_2_bytes(global_t *global, int address)
             break;
         value = (value << 8) | byte;
     }
-
     return value;
 }
 
@@ -63,10 +62,8 @@ int read_4_bytes(global_t *global, int address)
             break;
         value = (value << 8) | byte;
     }
-
     return value;
 }
-
 
 int get_params(global_t *global, champion_t *champion, pc_t *op, char param)
 {
